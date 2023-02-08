@@ -9,4 +9,12 @@ plugins:
 provider:
   name: aws
   runtime: nodejs18.x
+  region: eu-west-1
 
+functions:
+  hidro-api-post-data:
+    handler: src/handler.handler
+    events:
+      - http:
+          path: /Post-dataHE.php
+          method: post
