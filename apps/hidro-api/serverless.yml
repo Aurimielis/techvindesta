@@ -1,6 +1,7 @@
 service: hidro-api
-
 frameworkVersion: '3'
+
+useDotenv: true
 
 plugins:
   - serverless-offline
@@ -8,13 +9,23 @@ plugins:
 
 provider:
   name: aws
+  deploymentMethod: direct
+  stage: ${opt:stage, 'development'}
   runtime: nodejs18.x
   region: eu-west-1
+  profile: ${env:AWS_PROFILE, 'default'}
+  environment:
+    SERVERLESS_STAGE: ${self:provider.stage, 'development'}
 
 functions:
   hidro-api-post-data:
     handler: src/handler.handler
+    memorySize: 256
+    timeout: 5
+    environment:
+      DATABASE_HOST: ${env:DATABASE_HOST, ''}
+      DATABASE_SECRET_NAME: ${env:DATABASE_SECRET_NAME, ''}
     events:
-      - http:
+      - httpApi:
           path: /Post-dataHE.php
           method: post
