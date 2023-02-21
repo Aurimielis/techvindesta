@@ -1,6 +1,7 @@
 import mysql from "mysql";
 import { SecretsManagerService } from "./secrets-manager-service";
 import { parseJson } from "nx/src/utils/json";
+import { ParameterStoreService } from "./parameter-store-service";
 
 type credentialsConfig = {
   user: string;
@@ -38,16 +39,17 @@ export class DatabaseService {
     // Load credentials from env
     const { DATABASE_SECRET_NAME } = process.env
 
-    // Initiate Secrets Manager service
+    // Initiate services
     const secretsManager = new SecretsManagerService()
+    const parameterStore = new ParameterStoreService()
 
     // Get credentials from SSM
     const creds: {username: string, password: string} = await secretsManager.get(DATABASE_SECRET_NAME)
       .then((res) => parseJson(res))
 
     // Get remaining details from Parameter Store
-    const host = await secretsManager.get(DATABASE_HOST_PATH)
-    const database = await secretsManager.get(DATABASE_NAME_PATH)
+    const host = await parameterStore.get(DATABASE_HOST_PATH)
+    const database = await parameterStore.get(DATABASE_NAME_PATH)
 
     console.log(host, database)
 
