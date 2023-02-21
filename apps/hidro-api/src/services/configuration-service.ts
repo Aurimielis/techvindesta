@@ -5,10 +5,14 @@ export class ConfigurationService {
   public databaseService: DatabaseService;
   private ssmService: SecretsManagerService;
 
-  constructor() {
-    this.databaseService = new DatabaseService();
+  private constructor(databaseService: DatabaseService) {
     this.ssmService = new SecretsManagerService();
+    this.databaseService = databaseService;
+  }
 
-    this.ssmService.get(process.env.DATABASE_SECRET_NAME)
+  static async getService(): Promise<ConfigurationService> {
+    const databaseService = await DatabaseService.getService();
+    const configService = new ConfigurationService(databaseService);
+    return configService;
   }
 }
