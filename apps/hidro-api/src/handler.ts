@@ -1,17 +1,13 @@
 import { APIGatewayProxyEventV2, Handler } from 'aws-lambda'
-import { ConfigurationService } from "./services/configuration-service";
+import { ServiceContainer } from "./services/service-container";
 
-const config = ConfigurationService.init();
+const container = ServiceContainer.init();
 
 export const handler: Handler = async (
   event: APIGatewayProxyEventV2,
 ) => {
-  if (!config) {
-    return {
-      statusCode: 500,
-      body: "Failed to initialize configuration service",
-    };
-  }
+  const logger = (await container).loggingService.getLogger();
+  logger.info("Container initialise successfully");
 
   return {
     statusCode: 200,
