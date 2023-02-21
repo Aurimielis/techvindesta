@@ -8,10 +8,10 @@ import { LoggingService } from "./logging-service";
  * following singleton pattern
  */
 export class ServiceContainer {
+  public readonly loggingService: LoggingService;
   public readonly databaseService: DatabaseService;
   public readonly secretsManagerService: SecretsManagerService;
   public readonly parameterStoreService: ParameterStoreService;
-  public readonly loggingService: LoggingService;
 
   private constructor(databaseService: DatabaseService) {
     this.secretsManagerService = new SecretsManagerService();
@@ -21,10 +21,9 @@ export class ServiceContainer {
   }
 
   static async init(): Promise<ServiceContainer> {
-    const databaseService = await DatabaseService.init();
+    const logger = new LoggingService();
+    const databaseService = await DatabaseService.init(logger);
 
-    const configService = new ServiceContainer(databaseService);
-
-    return configService;
+    return new ServiceContainer(databaseService);
   }
 }

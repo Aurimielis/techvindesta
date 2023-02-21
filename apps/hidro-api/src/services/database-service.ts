@@ -2,6 +2,8 @@ import mysql from "mysql";
 import { SecretsManagerService } from "./secrets-manager-service";
 import { parseJson } from "nx/src/utils/json";
 import { ParameterStoreService } from "./parameter-store-service";
+import { LoggingService } from "./logging-service";
+import winston from "winston";
 
 type credentialsConfig = {
   user: string;
@@ -15,18 +17,19 @@ const DATABASE_HOST_PATH = '/techvindesta/rds/host'
 const DATABASE_NAME_PATH = '/techvindesta/rds/database'
 
 export class DatabaseService {
-  public client: mysql.Connection;
+  public readonly client: mysql.Connection;
+  private logger: winston.Logger
 
-  private constructor(config: credentialsConfig) {
+  private constructor(logger: LoggingService, config: credentialsConfig) {
     // Initiate client connection
+    this.logger = logger.getLogger()
     this.client = mysql.createConnection(config)
 
     this.client.connect((err) => {
       if (err) {
-        console.error('error connecting: ' + err.stack)
-        return
+        throw new Error('error connecting: ' + err.stack)
       }
-      console.log('connected as id ' + this.client.threadId)
+      this.logger.info('connected as id ' + this.client.threadId)
     })
   }
 
@@ -36,7 +39,7 @@ export class DatabaseService {
    *
    * @return Promise<DatabaseService>
    */
-  static async init(): Promise<DatabaseService> {
+  static async init(logger: LoggingService): Promise<DatabaseService> {
     // Load credentials from env
     const { DATABASE_SECRET_NAME } = process.env
 
@@ -60,6 +63,6 @@ export class DatabaseService {
       port: 3306
     }
 
-    return new DatabaseService(config)
+    return new DatabaseService(logger, config)
   }
 }
