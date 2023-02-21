@@ -6,6 +6,13 @@ const config = ConfigurationService.init();
 export const handler: Handler = async (
   event: APIGatewayProxyEventV2,
 ) => {
+  if (!config) {
+    return {
+      statusCode: 500,
+      body: "Failed to initialize configuration service",
+    };
+  }
+
   return {
     statusCode: 200,
     body: "Hello World!",

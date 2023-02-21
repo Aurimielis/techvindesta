@@ -33,6 +33,7 @@ export class DatabaseService {
   /**
    * Initiate database service with credentials from Secrets Manager and SSM Parameter Store
    * The function is invoked asynchronously and returns a promise
+   *
    * @return Promise<DatabaseService>
    */
   static async init(): Promise<DatabaseService> {
@@ -50,8 +51,6 @@ export class DatabaseService {
     // Get remaining details from Parameter Store
     const host = await parameterStore.get(DATABASE_HOST_PATH)
     const database = await parameterStore.get(DATABASE_NAME_PATH)
-
-    console.log(host, database)
 
     const config: credentialsConfig = {
       database: database || 'techvindesta',
