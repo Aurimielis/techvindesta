@@ -10,8 +10,8 @@ export class ConfigurationService {
     this.databaseService = databaseService;
   }
 
-  static async getService(): Promise<ConfigurationService> {
-    const databaseService = await DatabaseService.getService();
+  static async init(): Promise<ConfigurationService> {
+    const databaseService = await DatabaseService.init();
     const configService = new ConfigurationService(databaseService);
     return configService;
   }

@@ -26,7 +26,12 @@ export class DatabaseService {
     })
   }
 
-  static async getService(): Promise<DatabaseService> {
+  /**
+   * Initiate database service with credentials from Secrets Manager and SSM Parameter Store
+   * The function is invoked asynchronously and returns a promise
+   * @return Promise<DatabaseService>
+   */
+  static async init(): Promise<DatabaseService> {
     // Load credentials from env
     const {
       DATABASE_HOST,
@@ -38,7 +43,10 @@ export class DatabaseService {
     const secretsManager = new SecretsManagerService()
 
     // Get credentials from SSM
-    const creds: {username: string, password: string} = await secretsManager.get(DATABASE_SECRET_NAME).then((res) => parseJson(res))
+    const creds: {username: string, password: string} = await secretsManager.get(DATABASE_SECRET_NAME)
+      .then((res) => parseJson(res))
+
+    // Get remaining details from Parameter Store
 
     const config: credentialsConfig = {
       database: DATABASE_NAME || 'techvindesta',

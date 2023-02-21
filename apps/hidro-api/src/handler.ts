@@ -1,7 +1,7 @@
 import { APIGatewayProxyEventV2, Handler } from 'aws-lambda'
 import { ConfigurationService } from "./services/configuration-service";
 
-const config = ConfigurationService.getService();
+const config = ConfigurationService.init();
 
 export const handler: Handler = async (
   event: APIGatewayProxyEventV2,
