@@ -10,6 +10,9 @@ type credentialsConfig = {
   port: number;
 }
 
+const DATABASE_HOST_PATH = '/techvindesta/rds/host'
+const DATABASE_NAME_PATH = '/techvindesta/rds/database'
+
 export class DatabaseService {
   public client: mysql.Connection;
 
@@ -33,11 +36,7 @@ export class DatabaseService {
    */
   static async init(): Promise<DatabaseService> {
     // Load credentials from env
-    const {
-      DATABASE_HOST,
-      DATABASE_NAME,
-      DATABASE_SECRET_NAME
-    } = process.env
+    const { DATABASE_SECRET_NAME } = process.env
 
     // Initiate Secrets Manager service
     const secretsManager = new SecretsManagerService()
@@ -47,10 +46,14 @@ export class DatabaseService {
       .then((res) => parseJson(res))
 
     // Get remaining details from Parameter Store
+    const host = await secretsManager.get(DATABASE_HOST_PATH)
+    const database = await secretsManager.get(DATABASE_NAME_PATH)
+
+    console.log(host, database)
 
     const config: credentialsConfig = {
-      database: DATABASE_NAME || 'techvindesta',
-      host: DATABASE_HOST,
+      database: database || 'techvindesta',
+      host: host,
       password: creds.password,
       user: creds.username,
       port: 3306
