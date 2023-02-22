@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { InfraStack } from '../lib/infra-stack';
+import { HidroStage } from "../lib/stage/hidro-stage";
+import { Accounts } from "../lib/config/accounts";
 
 const app = new cdk.App();
-new InfraStack(app, 'InfraStack');
+
+// new ManagementStage(app, 'ManagementStage', {});
+
+new HidroStage(app, 'HidroStage', {})
