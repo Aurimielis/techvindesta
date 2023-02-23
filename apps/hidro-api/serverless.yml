@@ -19,6 +19,12 @@ provider:
 
   iam:
     deploymentRole: arn:aws:iam::${aws:accountId}:role/ServerlessDeploymentRole
+    role:
+      statement:
+        - Effect: Allow
+          Action:
+            - ssm:GetParameters
+            - ssm:GetParametersByPath
 
 functions:
   hidro-api-post-data:
@@ -38,4 +44,4 @@ custom:
   deploymentRole:
     local: ''
     staging: ''
-    production: ''
+    production: 'ProductionServerlessFrameworkDeploymentRole'
