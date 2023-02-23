@@ -17,6 +17,9 @@ provider:
   environment:
     SERVERLESS_STAGE: ${self:provider.stage, 'development'}
 
+  iam:
+    deploymentRole: arn:aws:iam::${aws:accountId}:role/ServerlessDeploymentRole
+
 functions:
   hidro-api-post-data:
     handler: src/handler.handler
@@ -29,3 +32,10 @@ functions:
       - httpApi:
           path: /Post-dataHE.php
           method: post
+
+
+custom:
+  deploymentRole:
+    local: ''
+    staging: ''
+    production: ''
