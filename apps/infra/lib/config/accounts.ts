@@ -8,6 +8,6 @@ export class Accounts {
   public static readonly production: IAccount = {
     account: "261683817353",
     region: "eu-west-1",
-    defaultStage: "production",
+    defaultStage: "Production",
   }
 }

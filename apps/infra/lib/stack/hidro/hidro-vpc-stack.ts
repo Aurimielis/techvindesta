@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
+import { HidroSecurityGroups } from "../../construct/vpc/hidro-security-groups";
 
 interface HidroVpcStackProps extends cdk.StackProps {
   vpcCidr: string;
@@ -8,7 +9,7 @@ interface HidroVpcStackProps extends cdk.StackProps {
 
 export class HidroVpcStack extends cdk.Stack {
   public readonly vpc: ec2.Vpc;
-  public readonly securityGroup: ec2.SecurityGroup;
+  public readonly securityGroups: HidroSecurityGroups;
 
   public static readonly subnetNamePublic = 'HidroPublic';
   public static readonly subnetNameData = 'HidroData';
@@ -39,5 +40,9 @@ export class HidroVpcStack extends cdk.Stack {
         }
       ]
     });
+
+    this.securityGroups = new HidroSecurityGroups(this, 'HidroSecurityGroups', {
+      vpc: this.vpc,
+    })
   }
 }
