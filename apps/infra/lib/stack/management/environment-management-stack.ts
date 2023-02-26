@@ -7,12 +7,12 @@ interface EnvironmentManagementStackProps extends cdk.StackProps {
 }
 
 export class EnvironmentManagementStack extends cdk.Stack {
-  public readonly apiServerlessDeploymentRole: ServerlessFrameworkDeploymentRole
+  public readonly apiCloudformationDeploymentRole: ServerlessFrameworkDeploymentRole
 
   constructor(scope: Construct, id: string, props: EnvironmentManagementStackProps) {
     super(scope, id, props);
 
-    this.apiServerlessDeploymentRole = new ServerlessFrameworkDeploymentRole(this, "ApiServerlessDeploymentRole", {
+    this.apiCloudformationDeploymentRole = new ServerlessFrameworkDeploymentRole(this, "ApiServerlessDeploymentRole", {
       stage: props.stage
     })
   }

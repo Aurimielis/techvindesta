@@ -11,7 +11,7 @@ provider:
   name: aws
   deploymentMethod: direct
   stage: ${opt:stage, 'development'}
-  runtime: nodejs18.x
+  runtime: nodejs16.x
   region: eu-west-1
   profile: ${env:AWS_PROFILE, 'default'}
   environment:
@@ -20,11 +20,20 @@ provider:
   iam:
     deploymentRole: arn:aws:iam::${aws:accountId}:role/${self:custom.deploymentRole.${opt:stage, 'local'}}
     role:
-      statement:
+      statements:
         - Effect: Allow
           Action:
+            - ssm:GetParameter
             - ssm:GetParameters
             - ssm:GetParametersByPath
+          Resource:
+            - 'arn:aws:ssm:*:*:parameter/techvindesta/rds/**/*'
+            - 'arn:aws:ssm:*:*:parameter/techvindesta/rds/*'
+        - Effect: Allow
+          Action:
+            - secretsmanager:GetSecretValue
+          Resource:
+            - 'arn:aws:secretsmanager:eu-west-1:261683817353:secret:rds!db-80899538-9b2f-4f06-98da-7b6b0c97b4c2-2rNBmK'
 
 functions:
   hidro-api-post-data:
@@ -32,7 +41,6 @@ functions:
     memorySize: 256
     timeout: 5
     environment:
-      DATABASE_HOST: ${env:DATABASE_HOST, ''}
       DATABASE_SECRET_NAME: ${env:DATABASE_SECRET_NAME, ''}
     events:
       - httpApi:
