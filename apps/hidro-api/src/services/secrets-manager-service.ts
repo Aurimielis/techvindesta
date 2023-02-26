@@ -1,15 +1,15 @@
-import { GetSecretValueCommand, SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
+import AWS from "aws-sdk";
 
 
 /**
  * Service for retrieving secrets from AWS SSM service
  */
 export class SecretsManagerService {
-  private client: SecretsManagerClient
+  private client: AWS.SecretsManager
   private readonly cache: Map<string, string>
 
   constructor() {
-    this.client = new SecretsManagerClient({})
+    this.client = new AWS.SecretsManager({})
     this.cache = new Map<string, string>()
   }
 
@@ -25,13 +25,12 @@ export class SecretsManagerService {
     let response: any
 
     try {
-      response = await this.client.send(
-        new GetSecretValueCommand({
+      response = await this.client.getSecretValue(
+        {
           SecretId: name,
           VersionStage: 'AWSCURRENT',
-        })
-      )
-
+        }
+      ).promise()
     } catch (e) {
       console.error(e)
       return ''
@@ -44,6 +43,6 @@ export class SecretsManagerService {
 
     this.cache[name] = response.SecretString
 
-    return response.SecretString
+    return this.cache[name]
   }
 }

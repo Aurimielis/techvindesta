@@ -5,7 +5,7 @@ useDotenv: true
 
 plugins:
   - serverless-offline
-  - serverless-plugin-typescript
+  - serverless-bundle
 
 provider:
   name: aws
@@ -18,7 +18,7 @@ provider:
     SERVERLESS_STAGE: ${self:provider.stage, 'development'}
 
   iam:
-    deploymentRole: arn:aws:iam::${aws:accountId}:role/ServerlessDeploymentRole
+    deploymentRole: arn:aws:iam::${aws:accountId}:role/${self:custom.deploymentRole.${opt:stage, 'local'}}
     role:
       statement:
         - Effect: Allow
@@ -45,3 +45,8 @@ custom:
     local: ''
     staging: ''
     production: 'ProductionServerlessFrameworkDeploymentRole'
+
+  bundle:
+    linting: false
+    forceInclude:
+      - aws-sdk
