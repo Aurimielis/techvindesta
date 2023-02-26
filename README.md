@@ -33,9 +33,8 @@ Before starting the work on any of these projects, make sure you have
 ### Serverless
 
 1. `npm install`
-2. `cd apps/hidro-api`
-3. `cp .env.dist .env` and add the required values
-4. `serverless offline` or `sls offline`. That's it! You can now access the API at `http://localhost:3000` and see how they work as you make changes locally.
+2. `cp apps/hidro-api/.env.dist apps/hidro-api/.env` and add the required values
+3. `npm run api:start`. That's it! You can now access the API at `http://localhost:3000` and see how they work as you make changes locally.
 
 ### Web app
 
@@ -55,8 +54,7 @@ As explained in `Getting started` section, `cdk synth` and `cdk deploy` are the 
 
 ### Serverless
 
-1. `cd apps/hidro-api`
-2. `sls deploy --stage production`
+`npm run api:deploy -- --stage <stage>` to deploy the API to the specified stage. At the moment, we only have `production`.
 
 ## Web App
 
