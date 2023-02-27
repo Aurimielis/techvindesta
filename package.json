@@ -35,6 +35,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "@svgr/webpack": "^6.1.2",
     "@testing-library/react": "13.4.0",
+    "@types/aws-lambda": "^8.10.111",
     "@types/jest": "28.1.1",
     "@types/mysql": "^2.15.21",
     "@types/node": "18.11.9",

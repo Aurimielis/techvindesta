@@ -17,20 +17,13 @@ const DATABASE_HOST_PATH = '/techvindesta/rds/host'
 const DATABASE_NAME_PATH = '/techvindesta/rds/database'
 
 export class DatabaseService {
-  public readonly client: mysql.Connection;
+  public readonly pool: mysql.Pool;
   private logger: winston.Logger
 
   private constructor(logger: LoggingService, config: credentialsConfig) {
     // Initiate client connection
     this.logger = logger.getLogger()
-    this.client = mysql.createConnection(config)
-
-    this.client.connect((err) => {
-      if (err) {
-        throw new Error('error connecting: ' + err.stack)
-      }
-      this.logger.info('connected as id ' + this.client.threadId)
-    })
+    this.pool = mysql.createPool(config)
   }
 
   /**
@@ -64,5 +57,48 @@ export class DatabaseService {
     }
 
     return new DatabaseService(logger, config)
+  }
+
+  /**
+   * Gets all data from selected table
+   * @param name
+   */
+  public async getData(name: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM ${name}`
+
+      // Get connection from the pool
+      this.pool.getConnection((err, connection) => {
+        // Handle connection error
+        if (err) {
+          this.logger.error(`error in getData while connecting: ${err}`)
+          reject({
+            statusCode: 500,
+            body: err.message
+          })
+        }
+
+        // Run query
+        connection.query(query, (err, results) => {
+          // Release connection back to the pool
+          connection.release()
+
+          // Handle query error if any
+          if (err) {
+            this.logger.error(`error in getData while querying: ${err}`)
+            reject({
+              statusCode: 500,
+              body: err.message
+            })
+          }
+
+          // Return results otherwise
+          resolve({
+            statusCode: 200,
+            body: JSON.stringify(results)
+          })
+        })
+      })
+    })
   }
 }
