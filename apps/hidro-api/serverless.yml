@@ -36,8 +36,8 @@ provider:
             - 'arn:aws:secretsmanager:eu-west-1:261683817353:secret:rds!db-80899538-9b2f-4f06-98da-7b6b0c97b4c2-2rNBmK'
 
 functions:
-  hidro-api-post-data:
-    handler: src/handler.handler
+  he-post-data:
+    handler: src/post-data.handler
     memorySize: 256
     timeout: 5
     environment:
@@ -46,6 +46,17 @@ functions:
       - httpApi:
           path: /Post-dataHE.php
           method: post
+
+  he-get-data:
+    handler: src/get-data.handler
+    memorySize: 256
+    timeout: 5
+    environment:
+      DATABASE_SECRET_NAME: ${env:DATABASE_SECRET_NAME, ''}
+    events:
+      - httpApi:
+          path: /he-data
+          method: get
 
 
 custom:
