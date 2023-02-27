@@ -67,36 +67,35 @@ export class DatabaseService {
     return new Promise((resolve, reject) => {
       const query = `SELECT * FROM ${name}`
 
-      // Get connection from the pool
+      // Connect to database
       this.pool.getConnection((err, connection) => {
         // Handle connection error
         if (err) {
           this.logger.error(`error in getData while connecting: ${err}`)
           reject({
             statusCode: 500,
-            body: err.message
+            body: "An error occurred while connecting to the database"
           })
         }
 
+
+        this.logger.info(`Database connection state: ${connection.state}`)
+
         // Run query
         connection.query(query, (err, results) => {
-          // Release connection back to the pool
-          connection.release()
-
-          // Handle query error if any
-          if (err) {
-            this.logger.error(`error in getData while querying: ${err}`)
-            reject({
-              statusCode: 500,
-              body: err.message
-            })
-          }
-
           // Return results otherwise
           resolve({
             statusCode: 200,
             body: JSON.stringify(results)
           })
+
+          connection.release()
+
+          // Handle query error if any
+          if (err) {
+            this.logger.error(`error in getData while querying: ${err}`)
+            throw err.message
+          }
         })
       })
     })
