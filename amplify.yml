@@ -3,7 +3,7 @@ applications:
   - appRoot: apps/web
     frontend:
       phases:
-        prebuild:
+        preBuild:
           commands:
             - cd ../../
             - nvm i
@@ -12,7 +12,7 @@ applications:
         build:
           commands:
             - npx nx build web
-            - cd apps/web
+            - cd apps/web/
       artifacts:
         baseDirectory: .next
         files:
