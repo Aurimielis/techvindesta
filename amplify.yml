@@ -12,9 +12,9 @@ applications:
         build:
           commands:
             - npx nx build web
-            - cd ../../dist/apps/web/.next
+            - cd apps/web
       artifacts:
-        baseDirectory: .next
+        baseDirectory: ../../dist/apps/web/.next
         files:
           - '**/*'
       cache:

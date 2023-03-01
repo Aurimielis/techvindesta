@@ -57,7 +57,9 @@ As explained in `Getting started` section, `cdk synth` and `cdk deploy` are the 
 
 ## Web App
 
-TBA (To Be Added)
+1. Commit local changes and push them to the remote
+2. Open a PR and merge it to `main` branch after it got reviews and tests passing
+3. Merge to `main` will trigger a deployment which AWS Amplify will pick up and deploy the app to the production environment
 
 ## Reference
 
