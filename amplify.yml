@@ -12,8 +12,7 @@ applications:
         build:
           commands:
             - npx nx build web
-            - cd apps/web
-            - ls -la
+            - cd ../../dist/apps/web/.next
       artifacts:
         baseDirectory: .next
         files:
