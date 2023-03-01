@@ -1,0 +1,15 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        build:
+          commands:
+            - npm install
+            - nx build web
+      artifacts:
+        baseDirectory: /
+        files:
+          - '**/*'
+      cache:
+        paths: []
+    appRoot: apps/web

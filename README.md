@@ -32,13 +32,12 @@ Before starting the work on any of these projects, make sure you have
 
 ### Serverless
 
-1. `npm install`
-2. `cp apps/hidro-api/.env.dist apps/hidro-api/.env` and add the required values
-3. `npm run api:start`. That's it! You can now access the API at `http://localhost:3000` and see how they work as you make changes locally.
+1. `cp apps/hidro-api/.env.dist apps/hidro-api/.env` and add the required values
+2. `npm run api:start`. That's it! You can now access the API at `http://localhost:3000` and see how they work as you make changes locally.
 
 ### Web app
 
-TBA (To Be Added)
+1. `nx serve web`
 
 ## Running tests
 
