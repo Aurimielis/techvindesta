@@ -5,7 +5,7 @@ applications:
         build:
           commands:
             - npm install
-            - nx build web
+            - npx nx build web
       artifacts:
         baseDirectory: /
         files:
