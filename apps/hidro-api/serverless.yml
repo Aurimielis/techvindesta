@@ -15,7 +15,11 @@ provider:
   region: eu-west-1
   profile: ${env:AWS_PROFILE, 'default'}
   environment:
-    SERVERLESS_STAGE: ${self:provider.stage, 'development'}
+    SERVERLESS_STAGE: ${self:provider.stage, 'staging'}
+  tags:
+    project: hidro-api
+    managedBy: serverless
+    stage: ${self:provider.stage, 'staging'}
 
   iam:
     deploymentRole: arn:aws:iam::${aws:accountId}:role/${self:custom.deploymentRole.${opt:stage, 'local'}}
@@ -34,6 +38,19 @@ provider:
             - secretsmanager:GetSecretValue
           Resource:
             - 'arn:aws:secretsmanager:eu-west-1:261683817353:secret:rds!db-80899538-9b2f-4f06-98da-7b6b0c97b4c2-2rNBmK'
+        - Effect: Allow
+          Action:
+            - ec2:CreateNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DeleteNetworkInterface
+          Resource: ['*']
+
+#  TODO: Add to VPC where RDS is and get them talking
+#  vpc:
+#    securityGroupIds:
+#      - 'sg-0a15250aee0e4e984'
+#    subnetIds:
+#      - 'subnet-079462e740cca9a84'
 
 functions:
   he-post-data:
@@ -50,7 +67,7 @@ functions:
   he-get-data:
     handler: src/get-data.handler
     memorySize: 256
-    timeout: 30
+    timeout: 10
     environment:
       DATABASE_SECRET_NAME: ${env:DATABASE_SECRET_NAME, ''}
     events:

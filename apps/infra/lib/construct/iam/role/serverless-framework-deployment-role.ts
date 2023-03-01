@@ -11,7 +11,7 @@ interface ServerlessFrameworkDeploymentRoleProps {
 export class ServerlessFrameworkDeploymentRole extends Construct {
   public static readonly roleName: string = "ServerlessFrameworkDeploymentRole"
   public readonly role: iam.Role
-  private Policy: iam.Policy;
+  private readonly Policy: iam.Policy;
 
   constructor(scope: Construct, id: string, props: ServerlessFrameworkDeploymentRoleProps) {
     super(scope, id);
@@ -162,6 +162,18 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
       ],
     });
 
+    const allowAccessToSecurityGroups = new iam.PolicyStatement({
+      sid: "ServerlessFrameworkCliAccessToSecurityGroups",
+      actions: [
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSecurityGroupRules",
+        "ec2:DescribeTags",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeVpcs",
+      ],
+      resources: ['*']
+    });
+
     this.Policy = new iam.Policy(
       this,
       "ServerlessFrameworkCloudformationPolicy",
@@ -177,6 +189,7 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
             allowLambdaLogGroup,
             allowEvents,
             allowLambda,
+            allowAccessToSecurityGroups
           ],
         }),
       }
@@ -188,6 +201,7 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
     })
 
     this.role.attachInlinePolicy(this.Policy);
+    this.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
   }
 
   public getDeploymentPolicyDocument(): iam.PolicyDocument {
@@ -277,7 +291,7 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
         allowExecuteCloudFormation,
         allowReadLambda,
         allowManageSlsDeploymentBucket,
-        allowListBuckets,
+        allowListBuckets
       ],
     });
   }
