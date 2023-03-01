@@ -12,7 +12,8 @@ applications:
         build:
           commands:
             - npx nx build web
-            - cd apps/web/
+            - cd apps/web
+            - ls -la
       artifacts:
         baseDirectory: .next
         files:
@@ -20,3 +21,4 @@ applications:
       cache:
         paths:
           - node_modules/**/*
+          - apps/web/.next/cache/**/*
