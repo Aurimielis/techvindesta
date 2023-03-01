@@ -53,6 +53,12 @@
         "style": "styled-components",
         "linter": "eslint"
       }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
     }
   }
 }
