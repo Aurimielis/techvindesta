@@ -57,6 +57,11 @@ As explained in `Getting started` section, `cdk synth` and `cdk deploy` are the 
 
 ## Web App
 
+**Important:** If it's first time deploying to the app, make sure to change platform type to `WEB_COMPUTE` as described in official [AWS Amplify documentation](https://docs.aws.amazon.com/amplify/latest/userguide/redeploy-ssg-to-ssr.html:
+```bash
+aws amplify update-app --profile <aws profile> --app-id <app id> --platform WEB_COMPUTE --region <region>
+```
+
 1. Commit local changes and push them to the remote
 2. Open a PR and merge it to `main` branch after it got reviews and tests passing
 3. Merge to `main` will trigger a deployment which AWS Amplify will pick up and deploy the app to the production environment
