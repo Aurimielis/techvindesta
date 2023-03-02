@@ -15,7 +15,7 @@ applications:
             - cd apps/web
         postBuild:
           commands:
-            - ls -la
+            - cat amplify.sh
       artifacts:
         baseDirectory: ../../dist/apps/web/.next
         files:
