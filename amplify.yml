@@ -11,6 +11,11 @@ applications:
           commands:
             - npx nx build web --verbose
             - cd apps/web
+        postBuild:
+          commands:
+            - shopt -s dotglob
+            - mv -f .next/standalone/apps/web/* .next/standalone
+            - rm -rf .next/standalone/apps
       artifacts:
         baseDirectory: .next
         files:
