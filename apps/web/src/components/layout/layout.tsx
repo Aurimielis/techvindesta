@@ -14,6 +14,7 @@ const StyledContainer = styled.div`
   width: 100%;
   flex-direction: column;
   max-width: 1200px;
+  margin: 0 auto;
 `
 // Layout wrapper for the page
 const Layout: React.FC<Props> = ({ children }) => {
