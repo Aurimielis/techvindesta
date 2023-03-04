@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Header from '../src/components/header/header';
 
 const StyledPage = styled.div`
 `;
@@ -18,12 +19,7 @@ export function Index() {
     <StyledPage>
       <div className="wrapper">
         <Container>
-          <div id="welcome">
-            <h1>
-              <span> Sveiki atvyke į</span>
-              Techvindesta 🔋
-            </h1>
-          </div>
+          <Header header="Techvindesta 🔋" preheader="Sveiki atvyke į" />
         </Container>
       </div>
     </StyledPage>
