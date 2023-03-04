@@ -13,9 +13,9 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  // experimental: {
-  //   outputFileTracingRoot: path.join(__dirname, "../../"),
-  // },
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, "../../"),
+  },
   output: 'standalone'
 };
 
