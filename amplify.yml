@@ -9,7 +9,7 @@ applications:
             - npm install
         build:
           commands:
-            - npx nx build web
+            - npx nx build web --verbose
             - cd apps/web
       artifacts:
         baseDirectory: .next
