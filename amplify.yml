@@ -9,14 +9,12 @@ applications:
             - npm install
         build:
           commands:
-            - npx nx build web
-            - cd dist/apps/web
-            - npm install
+            - npm run build
+            - cd apps/web
       artifacts:
-        baseDirectory: .next
+        baseDirectory: ../../dist/apps/.next
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
-          - apps/web/.next/cache/**/*
