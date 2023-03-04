@@ -10,10 +10,10 @@ applications:
         build:
           commands:
             - npx nx build web
-            - cd apps/web
+            - cd dist/apps/web
             - npm install
       artifacts:
-        baseDirectory: ../../dist/apps/web/.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
