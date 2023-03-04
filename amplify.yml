@@ -13,9 +13,6 @@ applications:
           commands:
             - npx nx build web
             - cd apps/web
-        postBuild:
-          commands:
-            - ls -la ../../
       artifacts:
         baseDirectory: ../../dist/apps/web/.next
         files:
