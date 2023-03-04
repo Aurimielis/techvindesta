@@ -14,7 +14,7 @@ applications:
             - npx nx build web
             - cd apps/web
       artifacts:
-        baseDirectory: ../../dist/apps/web/.next
+        baseDirectory: dist/apps/web/.next
         files:
           - '**/*'
       cache:
