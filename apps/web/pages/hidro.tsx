@@ -1,9 +1,10 @@
 import Layout from '../src/components/layout/layout'
+import Header from '../src/components/header/header'
 
 const Hidro = () => {
   return (
     <Layout>
-      <h1>Hidro Data 📈</h1>
+      <Header header={"Hidro Data 📈"} />
     </Layout>
   )
 }

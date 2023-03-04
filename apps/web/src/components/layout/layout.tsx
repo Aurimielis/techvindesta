@@ -7,9 +7,13 @@ interface Props {
 
 const StyledContainer = styled.div`
   display: flex;
-  width: 100%;
-  max-width: 1200px;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
   padding: 3rem 1rem;
+  width: 100%;
+  flex-direction: column;
+  max-width: 1200px;
 `
 // Layout wrapper for the page
 const Layout: React.FC<Props> = ({ children }) => {
