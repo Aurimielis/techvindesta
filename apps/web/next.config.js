@@ -13,10 +13,10 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  experimental: {
-    outputFileTracingRoot: path.join(__dirname, "../../"),
-  },
-  // output: 'standalone'
+  // experimental: {
+  //   outputFileTracingRoot: path.join(__dirname, "../../"),
+  // },
+  output: 'standalone'
 };
 
 module.exports = withNx(nextConfig);
