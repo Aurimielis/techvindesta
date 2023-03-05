@@ -28,10 +28,6 @@ const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
           {
             accessorKey: 'reading_time',
             header: 'metai-mėnuo-diena valanda:minutė',
-            cell: info => {
-              const date = new Date(info.getValue())
-              return date.toLocaleString('lt-LT', { timeZone: 'Europe/Vilnius' })
-            },
           }
         ]
       },
