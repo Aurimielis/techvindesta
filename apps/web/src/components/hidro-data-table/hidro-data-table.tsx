@@ -2,10 +2,7 @@ import * as React from 'react';
 import {
   GroupingState,
   useReactTable,
-  getFilteredRowModel,
   getCoreRowModel,
-  getGroupedRowModel,
-  getExpandedRowModel,
   ColumnDef,
   flexRender,
 } from '@tanstack/react-table'
@@ -31,7 +28,10 @@ const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
           {
             accessorKey: 'reading_time',
             header: 'metai-mėnuo-diena valanda:minutė',
-            cell: info => info.getValue(),
+            cell: info => {
+              const date = new Date(info.getValue())
+              return date.toLocaleString('lt-LT', { timeZone: 'Europe/Vilnius' })
+            },
           }
         ]
       },
@@ -41,7 +41,6 @@ const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
           {
             accessorKey: 'value1',
             header: 'metrais (centimetro tikslumu)',
-            cell: info => info.getValue(),
           }
         ]
       },
@@ -51,30 +50,20 @@ const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
           {
             accessorKey: 'value2',
             header: 'metrais (centimetro tikslumu)',
-            cell: info => info.getValue(),
           }
         ]
       }
     ],[])
 
-  const [grouping, setGrouping] = React.useState<GroupingState>([])
-
   const table = useReactTable({
     data,
     columns,
-    state: {
-      grouping,
-    },
-    onGroupingChange: setGrouping,
-    getExpandedRowModel: getExpandedRowModel(),
-    getGroupedRowModel: getGroupedRowModel(),
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    debugTable: true,
+    // debugTable: true,
   })
 
-  console.log(data)
-  if (data.length === 0) return (<div>no data</div>)
+  if (data.length === 0) return (<div>Duomenų nėra 🤷🏻‍♂️</div>)
+  if (data['message']) return (<div>Įvyko klaida, prašome bandyti vėliau 👷</div>)
 
   return (
     <div>
