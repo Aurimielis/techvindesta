@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "api:start": "cd apps/hidro-api && node ../../node_modules/.bin/serverless offline",
-    "api:deploy": "cd apps/hidro-api && node ../../node_modules/.bin/serverless deploy"
+    "api:deploy": "cd apps/hidro-api && node ../../node_modules/.bin/serverless deploy --stage production"
   },
   "private": true,
   "dependencies": {
