@@ -14,6 +14,10 @@ applications:
             value: 'nosniff'
           - key: 'Content-Security-Policy'
             value: "default-src 'self'"
+      - pattern: '*'
+        headers:
+          - key: 'Cache-Control'
+            value: 'max-age=600, smax-age=600, must-revalidate, public'
     frontend:
       phases:
         preBuild:
