@@ -1,23 +1,6 @@
 version: 1
 applications:
   - appRoot: apps/web
-    customHeaders:
-      - pattern: '**'
-        headers:
-          - key: 'Strict-Transport-Security'
-            value: 'max-age=31536000; includeSubDomains'
-          - key: 'X-Frame-Options'
-            value: 'SAMEORIGIN'
-          - key: 'X-XSS-Protection'
-            value: '1; mode=block'
-          - key: 'X-Content-Type-Options'
-            value: 'nosniff'
-          - key: 'Content-Security-Policy'
-            value: "default-src 'self'"
-      - pattern: '*'
-        headers:
-          - key: 'Cache-Control'
-            value: 'max-age=600, smax-age=600, must-revalidate, public'
     frontend:
       phases:
         preBuild:
