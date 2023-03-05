@@ -4,6 +4,7 @@ import { parseJson } from "nx/src/utils/json";
 import { ParameterStoreService } from "./parameter-store-service";
 import { LoggingService } from "./logging-service";
 import winston from "winston";
+import { HttpStatusCode } from "axios";
 
 type credentialsConfig = {
   user: string;
@@ -72,8 +73,9 @@ export class DatabaseService {
         // Handle connection error
         if (err) {
           this.logger.error(`error in getData while connecting: ${err}`)
+
           reject({
-            statusCode: 500,
+            statusCode: HttpStatusCode.InternalServerError,
             body: "An error occurred while connecting to the database"
           })
         }
@@ -85,7 +87,7 @@ export class DatabaseService {
         connection.query(query, (err, results) => {
           // Return results otherwise
           resolve({
-            statusCode: 200,
+            statusCode: HttpStatusCode.Ok,
             body: JSON.stringify(results)
           })
 
@@ -94,7 +96,11 @@ export class DatabaseService {
           // Handle query error if any
           if (err) {
             this.logger.error(`error in getData while querying: ${err}`)
-            throw err.message
+
+            reject({
+              statusCode: HttpStatusCode.NotFound,
+              body: "Table does not exist"
+            })
           }
         })
       })
