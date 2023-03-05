@@ -8,7 +8,7 @@ interface Props {
 }
 
 const StyledContainer = styled.div`
-  margin: 2.5rem 0;
+  margin: 2.5rem auto;
 `
 
 const StyledHeader = styled.h1`

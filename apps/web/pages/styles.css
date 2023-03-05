@@ -62,3 +62,20 @@ pre {
 .rounded {
   border-radius: 1.5rem;
 }
+
+th td {
+  font-weight: 600;
+}
+
+th, td {
+  padding: 5px 30px;
+}
+
+th {
+  background-color: rgb(61, 91, 119);
+  color: rgba(229, 231, 235, 1);
+}
+
+tbody tr {
+  border: 1px solid rgba(55, 65, 81, 1);
+}

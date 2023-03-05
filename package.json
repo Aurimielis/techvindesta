@@ -8,6 +8,7 @@
   },
   "private": true,
   "dependencies": {
+    "@tanstack/react-table": "^8.7.9",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1323.0",
     "axios": "^1.0.0",
