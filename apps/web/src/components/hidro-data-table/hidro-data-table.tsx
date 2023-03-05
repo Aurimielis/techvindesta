@@ -6,6 +6,7 @@ import {
   ColumnDef,
   flexRender,
 } from '@tanstack/react-table'
+import styled from "styled-components";
 
 type HidroData = {
   id: number;
@@ -18,6 +19,18 @@ type HidroData = {
 interface HidroDataTableProps {
   data: HidroData[];
 }
+
+const StyledWrapper = styled.div`
+  max-width: 100%;
+  overflow-x: auto;
+`
+
+const StyledTable = styled.table`
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-spacing: 0;
+`
 
 const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
   const columns = React.useMemo<ColumnDef<HidroData>[]>(
@@ -62,8 +75,8 @@ const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
   if (data['message']) return (<div>Įvyko klaida, prašome bandyti vėliau 👷</div>)
 
   return (
-    <div>
-      <table>
+    <StyledWrapper>
+      <StyledTable>
         <thead>
         {table.getHeaderGroups().map(headerGroup => (
           <tr key={headerGroup.id}>
@@ -103,8 +116,8 @@ const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
             )
           })}
         </tbody>
-      </table>
-    </div>
+      </StyledTable>
+    </StyledWrapper>
   )
 }
 
