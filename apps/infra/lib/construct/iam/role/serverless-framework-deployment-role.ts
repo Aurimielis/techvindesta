@@ -174,6 +174,18 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
       resources: ['*']
     });
 
+    const allowCloudFront = new iam.PolicyStatement({
+      sid: "ServerlessFrameworkCliAllowCloudFront",
+      actions: [
+        "cloudfront:CreateDistribution",
+        "cloudfront:DeleteDistribution",
+        "cloudfront:GetDistribution",
+        "cloudfront:UpdateDistribution",
+        "cloudfront:TagResource",
+      ],
+      resources: ['*']
+    })
+
     this.Policy = new iam.Policy(
       this,
       "ServerlessFrameworkCloudformationPolicy",
@@ -189,7 +201,8 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
             allowLambdaLogGroup,
             allowEvents,
             allowLambda,
-            allowAccessToSecurityGroups
+            allowAccessToSecurityGroups,
+            allowCloudFront
           ],
         }),
       }
