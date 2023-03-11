@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "api:start": "cd apps/hidro-api && node ../../node_modules/.bin/serverless offline",
-    "api:deploy": "cd apps/hidro-api && node ../../node_modules/.bin/serverless deploy --stage production"
+    "api:sls:start": "cd apps/hidro-api && node ../../node_modules/.bin/serverless offline",
+    "api:sls:deploy": "cd apps/hidro-api && node ../../node_modules/.bin/serverless deploy --stage production",
+    "api:build": "node ./node_modules/.bin/nx build api",
+    "api:serve": "node ./node_modules/.bin/nx serve api"
   },
   "private": true,
   "dependencies": {
