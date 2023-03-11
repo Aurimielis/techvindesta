@@ -1,16 +1,17 @@
 import { Construct } from 'constructs'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
-import * as iam from 'aws-cdk-lib/aws-iam'
+import { ApiEc2Role } from "../iam/role/api-ec2-role";
 
 interface Ec2ApiProps {
   allowSsh: boolean
   stage?: string
 }
 
-export class Ec2Api extends Construct {
+export class ApiEc2 extends Construct {
   public readonly vpc: ec2.IVpc
   public readonly securityGroup: ec2.SecurityGroup
   public readonly instance: ec2.Instance
+  public readonly name: string
 
   private readonly keyName: string = 'techvindesta-ec2'
 
@@ -21,6 +22,7 @@ export class Ec2Api extends Construct {
   ) {
     super(scope, id);
 
+    this.name = `${stage}Ec2Api`
     this.vpc = ec2.Vpc.fromLookup(this, 'Vpc', { isDefault: true })
 
     this.securityGroup = new ec2.SecurityGroup(this, 'Ec2ApiSecurityGroup', {
@@ -54,23 +56,17 @@ export class Ec2Api extends Construct {
       'cat <<EOF >> /home/ec2-user/.bashrc\nexport NVM_DIR=/.nvm\n[ -s \"/.nvm/nvm.sh\" ] && \. \"/.nvm/nvm.sh\"\nEOF',
     )
 
-    const ssmRole = new iam.Role(this, 'SSMRole', {
-      assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-      roleName: `${stage}Ec2ApiSsmRole`,
-    })
+    const ec2Role = new ApiEc2Role(this, 'SSMRole', { stage })
 
-    ssmRole.addManagedPolicy(
-      iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')
-    )
-
-    this.instance = new ec2.Instance(this, 'Ec2Api', {
+    this.instance = new ec2.Instance(this, 'ApiEc2', {
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
       machineImage: ec2.MachineImage.latestAmazonLinux(),
       vpc: this.vpc,
       keyName: this.keyName,
       userData,
-      instanceName: `${stage}Ec2Api`,
+      instanceName: this.name,
       securityGroup: this.securityGroup,
+      role: ec2Role.role,
     })
   }
 }
