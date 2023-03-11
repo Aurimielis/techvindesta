@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import { HidroVpcStack } from "../stack/hidro/hidro-vpc-stack";
+import { HidroApiStack } from "../stack/hidro/hidro-api-stack";
 
 /**
  * This is Hidro Stage
@@ -10,8 +10,8 @@ export class HidroStage extends cdk.Stage {
   constructor(scope: Construct, id: string, props: cdk.StageProps) {
     super(scope, id, props);
 
-    // new HidroVpcStack(this, 'HidroVpcStack', {
-    //   vpcCidr: '172.18.0.0/16',
-    // })
+    new HidroApiStack(this, 'HidroApiStack', {
+      stageName: props.stageName,
+    })
   }
 }
