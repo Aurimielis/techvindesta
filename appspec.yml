@@ -5,10 +5,10 @@ files:
     destination: /home/ec2-user/app
 hooks:
   AfterInstall:
-    - location: scripts/install_express_deps
+    - location: scripts/install_express_deps.sh
       timeout: 300
       runas: ec2-user
   ApplicationStart:
-    - location: scripts/start_express
+    - location: scripts/start_express.sh
       timeout: 300
       runas: ec2-user
