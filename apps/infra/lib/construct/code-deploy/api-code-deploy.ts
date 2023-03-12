@@ -16,7 +16,7 @@ export class ApiCodeDeploy extends Construct {
     super(scope, id)
 
     this.application = new CodeDeploy.ServerApplication(this, 'ApiApplication', {
-      applicationName: `${stage}ApiApplication`
+      applicationName: `ApiApplication`
     })
 
     this.deploymentGroup = new CodeDeploy.ServerDeploymentGroup(this, 'ApiDeploymentGroup', {
