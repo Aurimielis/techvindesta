@@ -66,7 +66,7 @@ export class DatabaseService {
    */
   public async getData(name: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      const query = `SELECT value1, value2, DATE_FORMAT(reading_time, "%Y-%m-%d %H:%i") as reading_time FROM ${name} ORDER BY reading_time DESC`
+      const query = `SELECT value1, value2, DATE_FORMAT(reading_time, "%Y-%m-%d %H:%i") as reading_time FROM ${name} ORDER BY reading_time DESC LIMIT 10`
 
       // Connect to database
       this.pool.getConnection((err, connection) => {
