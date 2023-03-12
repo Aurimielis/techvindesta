@@ -25,7 +25,5 @@ export class HidroApiStack extends cdk.Stack {
       stage: props.stageName,
       serviceRole: codeDeployRole.role
     })
-
-    new ApiCodeDeployBucket(this, 'ApiCodeDeployBucket')
   }
 }

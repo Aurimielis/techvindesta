@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { HidroApiStack } from "../stack/hidro/hidro-api-stack";
+import { HidroAssetsStack } from "../stack/hidro/hidro-assets-stack";
 
 /**
  * This is Hidro Stage
@@ -13,5 +14,7 @@ export class HidroStage extends cdk.Stage {
     new HidroApiStack(this, 'HidroApiStack', {
       stageName: props.stageName,
     })
+
+    new HidroAssetsStack(this, 'HidroAssetsStack', {})
   }
 }

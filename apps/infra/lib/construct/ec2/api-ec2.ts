@@ -66,6 +66,13 @@ export class ApiEc2 extends Construct {
       'sudo ./install auto',
     )
 
+    // Install pm2
+    userData.addCommands(
+      '. /home/ec2-user/.bashrc',
+      'nvm install 16',
+      'npm -g install pm2'
+    )
+
     const ec2Role = new ApiEc2Role(this, 'SSMRole', { stage })
 
     this.instance = new ec2.Instance(this, 'ApiEc2', {
