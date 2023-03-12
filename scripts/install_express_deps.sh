@@ -1,5 +1,8 @@
 #!/bin/bash
+. /home/ec2-user/.bashrc
 cd /home/ec2-user/app || exit
+
+chown -R ec2-user:ec2-user /home/ec2-user/app
 
 # Set environment variables
 export NODE_ENV=production

@@ -1,4 +1,5 @@
 #!/bin/bash
+. /home/ec2-user/.bashrc
 cd /home/ec2-user/app || exit
 
 # Build app and start with pm2
