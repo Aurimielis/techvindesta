@@ -33,11 +33,15 @@ Before starting the work on any of these projects, make sure you have
 ### Serverless
 
 1. `cp apps/hidro-api/.env.dist apps/hidro-api/.env` and add the required values
-2. `npm run api:start`. That's it! You can now access the API at `http://localhost:3000` and see how they work as you make changes locally.
+2. `npm run api:sls:start`. That's it! You can now access the API at `http://localhost:3000` and see how they work as you make changes locally.
+
+### API Application
+
+Just run `npm run api:start` and you are good to go. The API will be available at `http://localhost:3001`.
 
 ### Web app
 
-1. `nx serve web`
+`nx serve web`
 
 ## Running tests
 
@@ -54,6 +58,10 @@ As explained in `Getting started` section, `cdk synth` and `cdk deploy` are the 
 ### Serverless
 
 `npm run api:deploy -- --stage <stage>` to deploy the API to the specified stage. At the moment, we only have `production`.
+
+### API
+
+Changes are deployed automatically when pushed to `main` branch. The deployment is done through [CircleCI](https://app.circleci.com/pipelines/github/beniusij/techvindesta?branch=main)
 
 ## Web App
 
