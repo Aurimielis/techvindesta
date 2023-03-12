@@ -56,6 +56,16 @@ export class ApiEc2 extends Construct {
       'cat <<EOF >> /home/ec2-user/.bashrc\nexport NVM_DIR=/.nvm\n[ -s \"/.nvm/nvm.sh\" ] && \. \"/.nvm/nvm.sh\"\nEOF',
     )
 
+    // Install codedeploy-agent
+    userData.addCommands(
+      'sudo yum install ruby -y',
+      'sudo yum install wget -y',
+      'cd /home/ec2-user',
+      'wget https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install',
+      'chmod +x ./install',
+      'sudo ./install auto',
+    )
+
     const ec2Role = new ApiEc2Role(this, 'SSMRole', { stage })
 
     this.instance = new ec2.Instance(this, 'ApiEc2', {

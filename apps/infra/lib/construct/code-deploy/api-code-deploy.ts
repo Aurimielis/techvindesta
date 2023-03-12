@@ -24,7 +24,7 @@ export class ApiCodeDeploy extends Construct {
       deploymentGroupName: `${stage}ApiDeploymentGroup`,
       deploymentConfig: CodeDeploy.ServerDeploymentConfig.ONE_AT_A_TIME,
       ec2InstanceTags: new CodeDeploy.InstanceTagSet({
-        'name': [ec2Name]
+        'Name': [ec2Name]
       }),
       role: serviceRole
     })
