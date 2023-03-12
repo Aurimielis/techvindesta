@@ -7,8 +7,8 @@ hooks:
   AfterInstall:
     - location: scripts/install_express_deps.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
   ApplicationStart:
     - location: scripts/start_express.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
