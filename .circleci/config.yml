@@ -15,7 +15,7 @@ workflows:
     jobs:
       - aws-code-deploy/deploy:
           application-name: 'ApiApplication'
-          bundle-bucket: ''
+          bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
           deployment-group: 'ProductionApiDeploymentGroup'
           service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
