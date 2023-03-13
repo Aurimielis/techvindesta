@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "api": "apps/api",
+    "hidro-api": "apps/hidro-api",
+    "infra": "apps/infra",
+    "web": "apps/web"
+  }
+}
