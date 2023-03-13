@@ -1,8 +1,8 @@
 import mysql from "mysql";
-import { SecretsManagerService } from "./secrets-manager-service";
+import { SecretsManagerService } from "../secrets-manager-service/secrets-manager-service";
 import { parseJson } from "nx/src/utils/json";
-import { ParameterStoreService } from "./parameter-store-service";
-import { LoggingService } from "./logging-service";
+import { ParameterStoreService } from "../parameter-store-service/parameter-store-service";
+import { LoggingService } from "../logging-service/logging-service";
 import winston from "winston";
 import { HttpStatusCode } from "axios";
 

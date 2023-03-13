@@ -1,7 +1,9 @@
-import { DatabaseService } from "./database-service";
-import { SecretsManagerService } from "./secrets-manager-service";
-import { ParameterStoreService } from "./parameter-store-service";
-import { LoggingService } from "./logging-service";
+import {
+  DatabaseService,
+  SecretsManagerService,
+  ParameterStoreService,
+  LoggingService
+} from "@techvindesta/services";
 
 /**
  * Configuration service containing all services available in the API
