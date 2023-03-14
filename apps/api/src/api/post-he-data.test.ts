@@ -1,13 +1,39 @@
-import request from 'supertest';
-import app from '../main'
-import { Request, Response } from 'express';
+import app from '../main';
 
-describe('POST /he-data', () => {
-  it('should accept sensor data', async () => {
-    const response = await request(app)
-      .post('/Post-dataHE.php')
-      .send({ message: 'Hello, this should accept sensor data' })
+const request = require('supertest');
+
+describe('POST /Post-dataHE.php', () => {
+  test('should return 200 OK', () => {
+    return request(app)
+      .get('/')
       .expect(200)
-    expect(response.body).toEqual({ message: 'Hello, this should accept sensor data' })
+  })
+
+  it('should error if API key does not match', () => {
+    return request(app)
+      .post('/Post-dataHE.php')
+      .send({ apiKey: 'x' })
+      .expect(409)
+  })
+
+  it('should fail for invalid sensor data', () => {
+    return request(app)
+      .post('/Post-dataHE.php')
+      .send({ apiKey: 'v', value1: "nope", value2: "2", value3: 3 })
+      .expect(400)
+  })
+
+  it('should fail for invalid HENr valid sensor data', () => {
+    return request(app)
+      .post('/Post-dataHE.php')
+      .send({ apiKey: 'v', value1: 1, value2: 2, value3: 3, HENr: "potato" })
+      .expect(400)
+  })
+
+  it('should fail for non-existent table (HENr)', () => {
+    return request(app)
+      .post('/Post-dataHE.php')
+      .send({ apiKey: 'v', value1: 1, value2: 2, value3: 3, HENr: -1 })
+      .expect(400)
   })
 })

@@ -8,12 +8,12 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3001;
 
 const app = express();
 
-app.use(morgan('tiny'))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(morgan('tiny'))
 
 app.get('/', (req, res) => {
-  res.send({ message: 'Hello, API!' });
+  res.status(200).send({ message: 'Hello, API!' });
 });
 
 app.post('/Post-dataHE.php', PostHeDataHandler);
