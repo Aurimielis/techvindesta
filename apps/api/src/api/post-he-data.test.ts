@@ -36,4 +36,11 @@ describe('POST /Post-dataHE.php', () => {
       .send({ apiKey: 'v', value1: 1, value2: 2, value3: 3, HENr: -1 })
       .expect(400)
   })
+
+  it('should accept and store valid sensor data', () => {
+    return request(app)
+      .post('/Post-dataHE.php')
+      .send({ apiKey: 'v', value1: "21.1", value2: 42, value3: 0.0, HENr: 27 })
+      .expect(200)
+  })
 })

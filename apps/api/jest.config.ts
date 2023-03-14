@@ -7,6 +7,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/api',
   transformIgnorePatterns: ['<root_dir>/node_modules/@types/supertest'],
 };

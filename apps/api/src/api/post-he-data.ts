@@ -44,25 +44,30 @@ const PostHeDataHandler = async (req: any, res: any) => {
     return
   }
 
+  // Check if sensor data is valid
   let values: number[] = []
+  let heId: number
   try {
     values = convertToNumber([
       req.body.value1,
       req.body.value2,
       req.body.value3,
     ])
+
+    heId = convertToNumber([req.body.HENr])[0]
   } catch (e) {
     res.status(400).send({ message: 'Invalid data'})
     return
   }
 
-  const heId = Number(req.body.HENr)
-
-  if (!values || isNaN(heId) || !tableMap[heId]) {
+  if (!tableMap[heId]) {
     res.status(400).send({ message: 'Invalid data'})
     return
   }
 
+  // Store sensor data in database
+
+  //
   res.send({ message: 'Hello, this should accept sensor data'});
 }
 
