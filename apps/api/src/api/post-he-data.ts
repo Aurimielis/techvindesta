@@ -47,6 +47,7 @@ const PostHeDataHandler = async (req: any, res: any) => {
   // Check if sensor data is valid
   let values: number[] = []
   let heId: number
+
   try {
     values = convertToNumber([
       req.body.value1,
@@ -67,8 +68,8 @@ const PostHeDataHandler = async (req: any, res: any) => {
 
   // Store sensor data in database
 
-  //
-  res.send({ message: 'Hello, this should accept sensor data'});
+  // Upon success, return 200 OK
+  res.status(200).send({ message: 'Success'});
 }
 
 /**
