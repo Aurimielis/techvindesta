@@ -29,6 +29,12 @@ const tableMap: {
   28: "SemeliskiuHE", // 27
 }
 
+/**
+ * Handle POST /Post-dataHE.php requests by accepting sensor data and storing in database
+ * @param req
+ * @param res
+ * @constructor
+ */
 const PostHeDataHandler = async (req: any, res: any) => {
   const { apiKey } = req.body
 
@@ -38,11 +44,17 @@ const PostHeDataHandler = async (req: any, res: any) => {
     return
   }
 
-  const values: number[] | boolean = convertToNumber([
-    req.body.value1,
-    req.body.value2,
-    req.body.value3,
-  ])
+  let values: number[] = []
+  try {
+    values = convertToNumber([
+      req.body.value1,
+      req.body.value2,
+      req.body.value3,
+    ])
+  } catch (e) {
+    res.status(400).send({ message: 'Invalid data'})
+    return
+  }
 
   const heId = Number(req.body.HENr)
 
@@ -54,14 +66,18 @@ const PostHeDataHandler = async (req: any, res: any) => {
   res.send({ message: 'Hello, this should accept sensor data'});
 }
 
-const convertToNumber = (values: string[]): number[] | boolean => {
+/**
+ * Convert an array of strings to an array of numbers
+ * @param values
+ */
+const convertToNumber = (values: string[]): number[] => {
   const numbers: number[] = []
 
   for (const element of values) {
     const value = Number(element);
 
     if (isNaN(value)) {
-      return false
+      throw new Error('Invalid data')
     }
 
     numbers.push(value)
