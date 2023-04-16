@@ -9,7 +9,7 @@ export class SecretsManagerService {
   private readonly cache: Map<string, string>
 
   constructor() {
-    this.client = new AWS.SecretsManager({})
+    this.client = new AWS.SecretsManager()
     this.cache = new Map<string, string>()
   }
 
@@ -19,7 +19,7 @@ export class SecretsManagerService {
    */
   public async get(name: string): Promise<string> {
     if (this.cache.has(name)) {
-      return this.cache.get(name)
+      return this.cache.get(name)!
     }
 
     let response: any
@@ -32,7 +32,7 @@ export class SecretsManagerService {
         }
       ).promise()
     } catch (e) {
-      console.error(e)
+      console.error('Error occurred while fetching from Secrets Manager', e)
       return ''
     }
 
@@ -41,8 +41,8 @@ export class SecretsManagerService {
       return ''
     }
 
-    this.cache[name] = response.SecretString
+    this.cache.set(name, response.SecretString)
 
-    return this.cache[name]
+    return this.cache.get(name)!
   }
 }

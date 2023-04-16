@@ -1,3 +1,5 @@
+import { DatabaseService, LoggingService } from "@techvindesta/services";
+
 const API_KEY = 'v'
 
 const tableMap: {
@@ -66,7 +68,11 @@ const PostHeDataHandler = async (req: any, res: any) => {
     return
   }
 
+  // TODO add func to adjust data where need to be
+
   // Store sensor data in database
+  const client = await DatabaseService.init(new LoggingService())
+  await client.storeSensorData(tableMap[heId], values)
 
   // Upon success, return 200 OK
   res.status(200).send({ message: 'Success'});
