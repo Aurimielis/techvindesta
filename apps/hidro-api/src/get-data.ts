@@ -1,4 +1,4 @@
-import { APIGatewayProxyEventV2, Context, Handler, Callback, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayProxyEventV2, Context, Handler, APIGatewayProxyResultV2 } from "aws-lambda";
 import { ServiceContainer } from "./services/service-container";
 
 /**

@@ -72,7 +72,12 @@ const PostHeDataHandler = async (req: any, res: any) => {
 
   // Store sensor data in database
   const client = await DatabaseService.init(new LoggingService())
-  await client.storeSensorData(tableMap[heId], values)
+  try {
+    await client.storeSensorData(tableMap[heId], values)
+  } catch (e) {
+    res.status(500).send({ message: 'Internal server error'})
+    return
+  }
 
   // Upon success, return 200 OK
   res.status(200).send({ message: 'Success'});

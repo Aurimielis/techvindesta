@@ -42,12 +42,14 @@ export class DatabaseService {
     const parameterStore = new ParameterStoreService()
 
     // Get credentials from SSM
-    const creds: {username: string, password: string} = await secretsManager.get(DATABASE_SECRET_NAME)
+    const creds: {username: string, password: string} = await secretsManager.get(DATABASE_SECRET_NAME ?? '')
       .then((res) => parseJson(res))
 
+    console.log('fetching stuff from param store')
     // Get remaining details from Parameter Store
     const host = await parameterStore.get(DATABASE_HOST_PATH)
     const database = await parameterStore.get(DATABASE_NAME_PATH)
+    console.log('Done fetching host and database from Parameter Store')
 
     const config: credentialsConfig = {
       database: database || 'techvindesta',
@@ -80,7 +82,6 @@ export class DatabaseService {
           })
         }
 
-
         this.logger.info(`Database connection state: ${connection.state}`)
 
         // Run query
@@ -96,6 +97,51 @@ export class DatabaseService {
           // Handle query error if any
           if (err) {
             this.logger.error(`error in getData while querying: ${err}`)
+
+            reject({
+              statusCode: HttpStatusCode.NotFound,
+              body: "Table does not exist"
+            })
+          }
+        })
+      })
+    })
+  }
+
+  /**
+   * Stores sensor data in selected table
+   *
+   * @param name
+   * @param values
+   */
+  public async storeSensorData(name: string, values: number[]): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const query = `INSERT INTO ${name} (value1, value2, value3) VALUES (${values[0]}, ${values[1]}, ${values[2]})`
+
+      // Connect to database
+      this.pool.getConnection((err, connection) => {
+        // Handle connection error
+        if (err) {
+          this.logger.error(`error in createHeData while connecting: ${err}`)
+
+          reject({
+            statusCode: HttpStatusCode.InternalServerError,
+            body: "An error occurred while connecting to the database"
+          })
+        }
+
+        connection.query(query, (err, results) => {
+          // Return results otherwise
+          resolve({
+            statusCode: HttpStatusCode.Ok,
+            body: JSON.stringify(results)
+          })
+
+          connection.release()
+
+          // Handle query error if any
+          if (err) {
+            this.logger.error(`error in createHeData while querying: ${err}`)
 
             reject({
               statusCode: HttpStatusCode.NotFound,
