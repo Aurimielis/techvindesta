@@ -1,4 +1,4 @@
-service: hidro-controllers
+service: hidro-api
 frameworkVersion: '3'
 
 useDotenv: true
@@ -17,7 +17,7 @@ provider:
   environment:
     SERVERLESS_STAGE: ${self:provider.stage, 'staging'}
   tags:
-    project: hidro-controllers
+    project: hidro-api
     managedBy: serverless
     stage: ${self:provider.stage, 'staging'}
 
