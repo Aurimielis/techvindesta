@@ -63,6 +63,27 @@ As explained in `Getting started` section, `cdk synth` and `cdk deploy` are the 
 
 Changes are deployed automatically when pushed to `main` branch. The deployment is done through [CircleCI](https://app.circleci.com/pipelines/github/beniusij/techvindesta?branch=main)
 
+#### Debugging deployment
+
+Since this deployment includes different services, it is inherently more prone to failing so it is worth keeping note of how the pipeline can be debugged at any given step.
+
+##### CircleCI
+
+This one is probable the simplest since there is a dashboard available detailing each step in the (CI/CD pipeline)[https://app.circleci.com/pipelines/github/beniusij/techvindesta?branch=main] and if any given job fails it can be rerun from the dashboard with SSH connection: https://support.circleci.com/hc/en-us/articles/5170139355547-How-to-rerun-a-job-with-SSH  
+
+##### AWS CodeDeploy
+
+This is one more intricate so different aspects will be detailed as we go along.
+
+To debug examine logs from running CodeDeploy steps as described in `./appspec.yml` file:
+1. Connect to the EC2 instance ![Screenshot 2023-04-18 at 21.01.27.png](..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fww%2Fk8sgj41j5jx9_2f0d_ghbqrm0000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_CGcjiB%2FScreenshot%202023-04-18%20at%2021.01.27.png)
+2. Run `sudo su`
+3. Run `cat /opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log`
+
+##### PM2
+
+PM2 is a process manager and is used to run node server in the background while managing its restarts and such.
+
 ## Web App
 
 **Important:** If it's first time deploying to the app, make sure to change platform type to `WEB_COMPUTE` as described in official [AWS Amplify documentation](https://docs.aws.amazon.com/amplify/latest/userguide/redeploy-ssg-to-ssr.html:
