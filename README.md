@@ -84,6 +84,10 @@ To debug examine logs from running CodeDeploy steps as described in `./appspec.y
 
 PM2 is a process manager and is used to run node server in the background while managing its restarts and such.
 
+1. Connect to the EC2 instance using SSM as shown in the image above
+2. `cd /home/ec2-user/app`
+3. `pm2 logs` to see the logs
+
 ## Web App
 
 **Important:** If it's first time deploying to the app, make sure to change platform type to `WEB_COMPUTE` as described in official [AWS Amplify documentation](https://docs.aws.amazon.com/amplify/latest/userguide/redeploy-ssg-to-ssr.html:

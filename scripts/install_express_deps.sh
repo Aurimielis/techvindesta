@@ -8,4 +8,5 @@ nvm use
 
 # Install npm deps and pm2
 npm install
-npm -g install pm2
+# Make sure to install latest pm2 version
+npm -g install pm2@latest
