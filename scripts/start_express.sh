@@ -4,6 +4,7 @@ cd /home/ec2-user/app || exit
 
 # Set environment variables
 export NODE_ENV=production
+export NODE_OPTIONS=--max-old-space-size=1024
 
 # Build app
 rm -rf ./dist
