@@ -6,6 +6,9 @@ cd /home/ec2-user/app || exit
 nvm install
 nvm use
 
+# Make sure NPM cache is clean
+npm cache clean --force
+
 # Install npm deps and pm2
 npm install
 # Make sure to install latest pm2 version

@@ -6,6 +6,7 @@ cd /home/ec2-user/app || exit
 export NODE_ENV=production
 
 # Build app
+rm -rf ./dist
 npm run api:build
 
 # Delete all pm2 processes and start a new one
