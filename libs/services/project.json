@@ -4,17 +4,6 @@
   "sourceRoot": "libs/services/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nrwl/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/services",
-        "format": ["cjs"],
-        "main": "libs/services/src/main.ts",
-        "tsConfig": "libs/services/tsconfig.app.json",
-        "assets": ["libs/services/src/assets"]
-      }
-    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
