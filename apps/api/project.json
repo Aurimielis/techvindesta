@@ -8,25 +8,29 @@
       "executor": "@nrwl/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "platform": "node",
-        "outputPath": "dist/apps/api",
-        "format": ["cjs"],
-        "bundle": false,
         "main": "apps/api/src/main.ts",
+        "outputPath": "dist/apps/api",
         "tsConfig": "apps/api/tsconfig.app.json",
-        "assets": ["apps/api/src/assets"],
+        "platform": "node",
+        "format": ["cjs"],
+        "bundle": true,
         "esbuildOptions": {
           "sourcemap": true,
           "outExtension": {
             ".js": ".js"
           }
-        }
+        },
+        "generatePackageJson": true,
+        "thirdParty": false,
+        "dependenciesFieldType": "dependencies",
+        "minify": false
       },
       "configurations": {
         "production": {
           "esbuildOptions": {
             "sourcemap": false
-          }
+          },
+          "buildTarget": "api:build:production"
         }
       }
     },
