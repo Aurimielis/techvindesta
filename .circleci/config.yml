@@ -31,8 +31,8 @@ jobs:
       - run:
           name: Copy additional artefacts
           command: |
-            cp -r ./scripts dist
-            cp ./appspec.yml dist
+            cp -r ~/project/scripts ~/project/dist
+            cp ~/project/appspec.yml ~/project/dist
   serverless-api:
     executor: node-16
     steps:
