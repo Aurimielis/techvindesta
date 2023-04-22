@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-code-deploy: circleci/aws-code-deploy@2.0.0
+  aws-code-deploy: circleci/aws-code-deploy@3.0.0
   aws-cli: circleci/aws-cli@3.1.5
 
 executors:
@@ -9,17 +9,12 @@ executors:
     docker:
       - image: cimg/node:16.19.1
     working_directory: ~/project
-  node-16-dist:
-    docker:
-      - image: cimg/node:16.19.1
-    working_directory: ~/project/dist
 
 jobs:
   build-express-api:
-    executor: node-16-dist
+    executor: node-16
     steps:
-      - checkout:
-          path: ~/project
+      - checkout
       - run:
           name: Install Dependencies
           command: |
@@ -33,6 +28,10 @@ jobs:
           command: |
             cp -r ~/project/scripts ~/project/dist
             cp ~/project/appspec.yml ~/project/dist
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - dist
   serverless-api:
     executor: node-16
     steps:
@@ -57,10 +56,10 @@ workflows:
             branches:
               only: main
       - aws-code-deploy/deploy:
-          executor: node-16-dist
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
+          bundle-source: 'dist'
           deployment-group: 'ProductionApiDeploymentGroup'
           service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
           filters:
