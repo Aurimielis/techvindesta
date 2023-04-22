@@ -9,8 +9,28 @@ executors:
     docker:
       - image: cimg/node:16.13.0
     working_directory: ~/project
+  node-16-dist:
+    docker:
+      - image: cimg/node:16.13.0
+    working_directory: ~/project/dist
 
 jobs:
+  build-express-api:
+    executor: node-16-dist
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Build API
+          command: npm run api:build
+      - run:
+          name: Copy additional artefacts
+          command: |
+            cp -r scripts dist
+            cp appspec.yml dist
   serverless-api:
     executor: node-16
     steps:
@@ -29,6 +49,11 @@ workflows:
   version: 2
   deploy-production:
     jobs:
+      # Express API
+      - build-express-api:
+          filters:
+            branches:
+              only: main
       - aws-code-deploy/deploy:
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
@@ -38,7 +63,10 @@ workflows:
           filters:
             branches:
               only: main
+          requires:
+            - build-express-api
 
+      # Serverless API
       - serverless-api:
           filters:
             branches:
