@@ -22,7 +22,9 @@ jobs:
           path: ~/project
       - run:
           name: Install Dependencies
-          command: npm ci
+          command: |
+            npm ci
+            npm i @nrwl/nx-linux-x64-gnu
       - run:
           name: Build API
           command: npm run api:build
