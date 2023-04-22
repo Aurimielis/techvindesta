@@ -10,6 +10,7 @@ nvm use
 npm cache clean --force
 
 # Install npm deps and pm2
-npm install
+cd /home/ec2-user/app/apps/api && npm install
+cd /home/ec2-user/app/libs/services && npm install
 # Make sure to install latest pm2 version
 npm -g install pm2@latest
