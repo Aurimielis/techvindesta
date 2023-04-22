@@ -57,6 +57,7 @@ workflows:
             branches:
               only: main
       - aws-code-deploy/deploy:
+          executor: node-16-dist
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
