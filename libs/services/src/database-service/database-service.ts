@@ -1,6 +1,5 @@
 import mysql from "mysql";
 import { SecretsManagerService } from "../secrets-manager-service/secrets-manager-service";
-import { parseJson } from "nx/src/utils/json";
 import { ParameterStoreService } from "../parameter-store-service/parameter-store-service";
 import { LoggingService } from "../logging-service/logging-service";
 import winston from "winston";
@@ -43,7 +42,7 @@ export class DatabaseService {
 
     // Get credentials from SSM
     const creds: {username: string, password: string} = await secretsManager.get(DATABASE_SECRET_NAME ?? '')
-      .then((res) => parseJson(res))
+      .then((res) => JSON.parse(res))
 
     console.log('fetching stuff from param store')
     // Get remaining details from Parameter Store

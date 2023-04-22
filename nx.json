@@ -61,7 +61,7 @@
         "linter": "eslint"
       }
     },
-    "@nrwl/node": {
+    "nx g ": {
       "application": {
         "linter": "eslint"
       },
