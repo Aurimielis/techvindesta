@@ -26,10 +26,10 @@ jobs:
       - run:
           name: Copy additional artefacts
           command: |
-            cp -r ~/project/scripts ~/project/dist
-            cp ~/project/appspec.yml ~/project/dist
+            cp -r ~/project/scripts ~/tmp/dist
+            cp ~/project/appspec.yml ~/tmp/dist
       - persist_to_workspace:
-          root: ~/project
+          root: ~/tmp
           paths:
             - dist
   serverless-api:
@@ -58,11 +58,11 @@ workflows:
       - aws-code-deploy/deploy:
           pre-steps:
             - attach_workspace:
-                at: ~/project/dist
+                at: ~/tmp/dist
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
-          bundle-source: 'dist'
+          bundle-source: '~/tmp/dist'
           deployment-group: 'ProductionApiDeploymentGroup'
           service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
           auth:
