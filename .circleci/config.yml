@@ -56,6 +56,9 @@ workflows:
             branches:
               only: main
       - aws-code-deploy/deploy:
+          pre-steps:
+            - attach_workspace:
+                at: ~/project/dist
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
