@@ -85,8 +85,9 @@ To debug examine logs from running CodeDeploy steps as described in `./appspec.y
 PM2 is a process manager and is used to run node server in the background while managing its restarts and such.
 
 1. Connect to the EC2 instance using SSM as shown in the image above
-2. `cd /home/ec2-user/app`
-3. `pm2 logs` to see the logs
+2. `sudo su`
+3. Load .bashrc file: `. /home/ec2-user/.bashrc`
+4`pm2 logs` to see the logs
 
 ## Web App
 
