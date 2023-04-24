@@ -59,13 +59,6 @@ workflows:
           pre-steps:
             - attach_workspace:
                 at: ~/tmp
-            - run:
-                name: Move dist to tmp
-                command: |
-                  pwd
-                  ls -la ~/tmp
-                  mkdir -p ~/tmp
-                  mv ~/project/dist ~/tmp
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
