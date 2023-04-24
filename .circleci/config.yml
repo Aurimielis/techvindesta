@@ -29,9 +29,9 @@ jobs:
             cp -r ~/project/scripts ~/project/dist
             cp ~/project/appspec.yml ~/project/dist
       - persist_to_workspace:
-          root: ~/tmp
+          root: ~/project
           paths:
-            - ../project/dist
+            - dist
   serverless-api:
     executor: node-16
     steps:
@@ -58,7 +58,7 @@ workflows:
       - aws-code-deploy/deploy:
           pre-steps:
             - attach_workspace:
-                at: ~/tmp/dist
+                at: ~/project/dist
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
