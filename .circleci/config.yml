@@ -62,7 +62,7 @@ workflows:
           application-name: 'ApiApplication'
           bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
           bundle-key: 'Production'
-          bundle-source: '~/tmp/dist'
+          bundle-source: '../tmp/dist'
           deployment-group: 'ProductionApiDeploymentGroup'
           service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
           auth:
