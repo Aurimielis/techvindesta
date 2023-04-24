@@ -58,10 +58,12 @@ workflows:
       - aws-code-deploy/deploy:
           pre-steps:
             - attach_workspace:
-                at: ~/project/dist
+                at: ~/tmp
             - run:
                 name: Move dist to tmp
                 command: |
+                  pwd
+                  ls -la ~/tmp
                   mkdir -p ~/tmp
                   mv ~/project/dist ~/tmp
           application-name: 'ApiApplication'
