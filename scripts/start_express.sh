@@ -1,6 +1,6 @@
 #!/bin/bash
 . /home/ec2-user/.bashrc
-cd /home/ec2-user/app/dist/apps/api || exit
+cd /home/ec2-user/app/apps/api || exit
 
 # Set environment variables
 export NODE_ENV=production
