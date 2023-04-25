@@ -3,7 +3,6 @@ import { Construct } from 'constructs';
 import { ApiEc2 } from "../../construct/ec2/api-ec2";
 import { CodeDeployRole } from "../../construct/iam/role/code-deploy-role";
 import { ApiCodeDeploy } from "../../construct/code-deploy/api-code-deploy";
-import { ApiCodeDeployBucket } from "../../construct/s3/api-code-deploy-bucket";
 
 interface HidroApiStackProps extends cdk.StackProps {
   stageName?: string

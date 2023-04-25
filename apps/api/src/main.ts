@@ -19,7 +19,7 @@ app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
 app.get('/', (req, res) => {
-  res.status(200).send({ message: 'Hello, API!' });
+  res.status(200).send({ message: 'Hello!' });
 });
 
 app.post('/Post-dataHE.php', PostHeDataHandler);
