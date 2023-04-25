@@ -14,7 +14,3 @@ cd /home/ec2-user/app/apps/api && npm install
 cd /home/ec2-user/app/libs/services && npm install
 # Make sure to install latest pm2 version
 npm -g install pm2@latest
-
-# Set environment variables
-export DATABASE_SECRET_NAME='rds!db-80899538-9b2f-4f06-98da-7b6b0c97b4c2'
-
