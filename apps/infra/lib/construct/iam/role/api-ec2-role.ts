@@ -1,6 +1,5 @@
 import { Construct } from "constructs";
 import * as iam from "aws-cdk-lib/aws-iam";
-import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 
 interface ApiEc2RoleProps {
   stage?: string
@@ -29,7 +28,24 @@ export class ApiEc2Role extends Construct {
 
     // Secrets Manager policies
     // TODO: Update this to get perms to fetch secrets of database when we have a construct for it
-    const secret = new secretsmanager.Secret(this, 'Secret')
-    secret.grantRead(this.role)
+    this.role.attachInlinePolicy(
+      new iam.Policy(
+        this,
+        'SecretsManagerPolicy',
+        {
+          statements: [
+            new iam.PolicyStatement({
+              actions: [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+              ],
+              resources: [
+                "arn:aws:secretsmanager:eu-west-1:261683817353:secret:*"
+              ],
+            }),
+          ]
+        }
+      )
+    )
   }
 }
