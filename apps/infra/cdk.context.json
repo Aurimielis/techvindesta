@@ -34,5 +34,9 @@
         ]
       }
     ]
+  },
+  "hosted-zone:account=261683817353:domainName=techvindesta.com:privateZone=false:region=eu-west-1": {
+    "Id": "/hostedzone/Z08900563W2AHAZX1V2J1",
+    "Name": "techvindesta.com."
   }
 }
