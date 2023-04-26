@@ -53,17 +53,6 @@ provider:
 #      - 'subnet-079462e740cca9a84'
 
 functions:
-  HePostData:
-    handler: src/post-data.handler
-    memorySize: 256
-    timeout: 10
-    environment:
-      DATABASE_SECRET_NAME: ${env:DATABASE_SECRET_NAME, ''}
-    events:
-      - httpApi:
-          path: ${self:custom.postData.path}
-          method: post
-
   HeGetData:
     handler: src/get-data.handler
     memorySize: 256
@@ -74,35 +63,6 @@ functions:
       - httpApi:
           path: /he-data/{name}
           method: get
-
-#resources:
-#  Resources:
-#    ApiDistribution:
-#      Type: 'AWS::CloudFront::Distribution'
-#      Properties:
-#        DistributionConfig:
-#          Enabled: true
-#          DefaultCacheBehavior:
-#            AllowedMethods:
-#              - 'GET'
-#              - 'HEAD'
-#              - 'OPTIONS'
-#              - 'PUT'
-#              - 'POST'
-#            CachedMethods:
-#              - 'GET'
-#              - 'HEAD'
-#            Compress: true
-#            DefaultTTL: 0
-#            ForwardedValues:
-#              Cookies:
-#                Forward: 'none'
-#              QueryString: true
-#            TargetOriginId: 'HidroPostDataOrigin'
-#            ViewerProtocolPolicy: allow-all
-#          Restrictions:
-#            GeoRestriction:
-#              RestrictionType: 'none'
 
 custom:
   deploymentRole:
