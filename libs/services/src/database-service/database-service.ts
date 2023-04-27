@@ -4,6 +4,7 @@ import { ParameterStoreService } from "../parameter-store-service/parameter-stor
 import { LoggingService } from "../logging-service/logging-service";
 import winston from "winston";
 import { HttpStatusCode } from "axios";
+import { response } from "@techvindesta/utils";
 
 type credentialsConfig = {
   user: string;
@@ -75,10 +76,12 @@ export class DatabaseService {
         if (err) {
           this.logger.error(`error in getData while connecting: ${err}`)
 
-          reject({
-            statusCode: HttpStatusCode.InternalServerError,
-            body: "An error occurred while connecting to the database"
-          })
+          reject(
+            response(
+              HttpStatusCode.InternalServerError,
+              "An error occurred while connecting to the database"
+            )
+          )
         }
 
         this.logger.info(`Database connection state: ${connection.state}`)
@@ -86,10 +89,12 @@ export class DatabaseService {
         // Run query
         connection.query(query, (err, results) => {
           // Return results otherwise
-          resolve({
-            statusCode: HttpStatusCode.Ok,
-            body: JSON.stringify(results)
-          })
+          resolve(
+            response(
+              HttpStatusCode.Ok,
+              JSON.stringify(results),
+            )
+          )
 
           connection.release()
 
@@ -97,10 +102,12 @@ export class DatabaseService {
           if (err) {
             this.logger.error(`error in getData while querying: ${err}`)
 
-            reject({
-              statusCode: HttpStatusCode.NotFound,
-              body: "Table does not exist"
-            })
+            reject(
+              response(
+                HttpStatusCode.NotFound,
+                "Table does not exist",
+              )
+            )
           }
         })
       })

@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@techvindesta/services": ["libs/services/src/index.ts"]
+      "@techvindesta/services": ["libs/services/src/index.ts"],
+      "@techvindesta/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
