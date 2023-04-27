@@ -6,6 +6,7 @@ useDotenv: true
 plugins:
   - serverless-offline
   - serverless-bundle
+  - serverless-domain-manager
 
 provider:
   name: aws
@@ -75,5 +76,11 @@ custom:
     minifyOptions:
       keepNames: true
 
-  postData:
-    path: /Post-dataHE.php
+  customDomain:
+    domainName: lambda.techvindesta.com
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+    certificateArn: 'arn:aws:acm:eu-west-1:261683817353:certificate/d36a388b-c800-48c8-b16d-99344822d845'
+    endpointType: regional
+    apiType: http

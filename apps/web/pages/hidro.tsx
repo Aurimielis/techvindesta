@@ -2,7 +2,7 @@ import Layout from '../src/components/layout/layout'
 import Header from '../src/components/header/header'
 import HidroDataTable from "../src/components/hidro-data-table/hidro-data-table";
 
-const endpoint = "https://tb0jr1wcgf.execute-api.eu-west-1.amazonaws.com/he-data/"
+const endpoint = "https://lambda.techvindesta.com/he-data/"
 
 const Hidro = ({ data, table }) => {
   return (
