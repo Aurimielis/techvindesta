@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from "body-parser";
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import PostHeDataHandler from "./controllers/post-he-data";
+import createHandler from "./controllers/hidro/createHandler";
 import AWS from "aws-sdk";
 
 dotenv.config();
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
   res.status(200).send({ message: 'Hello!' });
 });
 
-app.post('/Post-dataHE.php', PostHeDataHandler);
+app.post('/hidro/create', createHandler);
 
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);

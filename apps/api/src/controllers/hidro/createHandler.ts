@@ -37,7 +37,7 @@ const tableMap: {
  * @param res
  * @constructor
  */
-const PostHeDataHandler = async (req: any, res: any) => {
+const createHandler = async (req: any, res: any) => {
   const { apiKey } = req.body
 
   // Check if API keys match
@@ -103,4 +103,4 @@ const convertToNumber = (values: string[]): number[] => {
   return numbers
 }
 
-export default PostHeDataHandler
+export default createHandler
