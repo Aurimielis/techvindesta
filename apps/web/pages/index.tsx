@@ -3,6 +3,9 @@ import Header from '../src/components/header/header';
 import Link from 'next/link';
 
 const StyledPage = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
 `;
 
 const Container = styled.div`
@@ -14,7 +17,32 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
   flex-direction: column;
-  max-width: 1200px;
+
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+`
+
+const StyledLink = styled.a`
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+`
+
+const HeroImage = styled.div`
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+    width: 50%;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-image: url('https://images.unsplash.com/photo-1615209853186-e4bd66602508?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3348&q=80');
+    background-size: cover;
+    background-position: center;
+  }
 `
 
 /**
@@ -24,16 +52,17 @@ const Container = styled.div`
 export function Index() {
   return (
     <StyledPage>
-      <div className="wrapper">
-        <Container>
-          <Header header="Techvindesta 🔋" preheader="Sveiki atvyke į" />
+      <Container>
+        <Header header="Techvindesta 🔋" preheader="Sveiki atvyke į" />
 
-          {/* Probs should remove that later when making it public  */}
-          <Link href="/hidro">
+        {/* Probs should remove that later when making it public  */}
+        <Link href="/hidro" passHref>
+          <StyledLink>
             Hidro Data
-          </Link>
-        </Container>
-      </div>
+          </StyledLink>
+        </Link>
+      </Container>
+      <HeroImage></HeroImage>
     </StyledPage>
   );
 }
