@@ -6,14 +6,19 @@ applications:
         preBuild:
           commands:
             - cd ../../
+            - echo "Installing NPM packages"
             - npm install
         build:
           commands:
+            - echo "Building web application"
             - npx nx build web --verbose
+            - echo "So that went through, CDing back to app's root directory"
             - cd apps/web
         postBuild:
           commands:
+            - echo "Running funny command"
             - shopt -s dotglob
+            - echo "Moving and removing folders"
             - mv -f .next/standalone/apps/web/* .next/standalone
             - rm -rf .next/standalone/apps
       artifacts:
