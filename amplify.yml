@@ -22,7 +22,7 @@ applications:
             - mv -f .next/standalone/apps/web/* .next/standalone
             - rm -rf .next/standalone/apps
       artifacts:
-        baseDirectory: ../../.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
