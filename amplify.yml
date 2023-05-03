@@ -16,13 +16,11 @@ applications:
             - cd apps/web
         postBuild:
           commands:
-            - echo "Running funny command"
-            - shopt -s dotglob
             - echo "Moving and removing folders"
-            - mv -f .next/standalone/apps/web/* .next/standalone
-            - rm -rf .next/standalone/apps
+            - mv -f ../../dist/apps/web/.next/standalone/apps/web/* ../../dist/apps/web/.next/standalone
+            - sed -i 's/\/..\/..//' ../../dist/apps/web/.next/standalone/server.js
       artifacts:
-        baseDirectory: .next
+        baseDirectory: dist/apps/web/.next
         files:
           - '**/*'
       cache:
