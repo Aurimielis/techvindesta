@@ -20,7 +20,7 @@ applications:
             - mv -f ../../dist/apps/web/.next/standalone/apps/web/* ../../dist/apps/web/.next/standalone
             - sed -i 's/\/..\/..//' ../../dist/apps/web/.next/standalone/server.js
       artifacts:
-        baseDirectory: dist/apps/web/.next
+        baseDirectory: ../../dist/apps/web/.next
         files:
           - '**/*'
       cache:
