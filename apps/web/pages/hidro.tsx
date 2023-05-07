@@ -5,10 +5,10 @@ import HidroDataTable from "../src/components/hidro-data-table/hidro-data-table"
 const endpoint = "https://lambda.techvindesta.com/he-data/"
 
 // const Hidro = ({ data, table }) => {
-const Hidro = ({ table }) => {
+const Hidro = () => {
   return (
     <Layout>
-      <Header header={"Hidro Data 📈"} postheader={table} />
+      {/*<Header header={"Hidro Data 📈"} postheader={table} />*/}
       {/*<HidroDataTable data={data} />*/}
     </Layout>
   )
