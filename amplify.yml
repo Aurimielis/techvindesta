@@ -11,7 +11,7 @@ applications:
         build:
           commands:
             - echo "Building web application"
-            - npx nx build web --verbose
+            - npx nx build web
             - echo "So that went through, CDing back to app's root directory"
             - cd apps/web
         postBuild:
