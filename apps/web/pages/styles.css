@@ -12,6 +12,11 @@ body {
   line-height: inherit;
   margin: 0;
 }
+
+h1, h2, h3, h4, h5, a, li, b, i {
+  color: #222;
+}
+
 h1,
 h2,
 p,

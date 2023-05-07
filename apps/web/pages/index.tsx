@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import Header from '../src/components/header/header';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const StyledPage = styled.div`
   width: 100%;
@@ -23,10 +26,13 @@ const Container = styled.div`
 `
 
 const StyledLink = styled.a`
-  text-decoration: underline;
+  width: fit-content;
+  margin-bottom: 15px;
+  font-size: 20px;
+  border-bottom: 1px solid #fff;
 
   &:hover {
-    text-decoration: none;
+    border-bottom-color: #222;
   }
 `
 
@@ -55,7 +61,8 @@ export function Index() {
         <Header header="Techvindesta 🔋" preheader="Sveiki atvyke į" />
 
         <StyledLink href="/hidro">
-          Hidro Data
+          Hidro Duomenys&nbsp;
+          <FontAwesomeIcon icon={faArrowRight} />
         </StyledLink>
       </Container>
       <HeroImage></HeroImage>
