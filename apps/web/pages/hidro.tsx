@@ -14,12 +14,4 @@ const Hidro = () => {
   )
 }
 
-// Hidro.getInitialProps = async (ctx) => {
-//   const table = ctx.query['table-name'] ?? 'TestHE'
-//
-//   const res = await fetch(`${endpoint}${table}`)
-//   const data = await res.json()
-//   return { data, table }
-// }
-
 export default Hidro
