@@ -1,6 +1,6 @@
 {
   "extends": [
-    "plugin:@nrwl/workspace/react-typescript",
+    "plugin:@nx/workspace/react-typescript",
     "next",
     "next/core-web-vitals",
     "../../.eslintrc.json"

@@ -6,7 +6,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@nrwl/workspace/enforce-module-boundaries": [
+        "@nx/workspace/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,

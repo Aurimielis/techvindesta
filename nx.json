@@ -40,7 +40,17 @@
     }
   },
   "generators": {
-    "@nrwl/react": {
+    "nx g ": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "export": true
+      }
+    },
+    "@nx/react": {
       "application": {
         "style": "styled-components",
         "linter": "eslint",
@@ -55,20 +65,10 @@
         "linter": "eslint"
       }
     },
-    "@nrwl/next": {
+    "@nx/next": {
       "application": {
         "style": "styled-components",
         "linter": "eslint"
-      }
-    },
-    "nx g ": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint",
-        "unitTestRunner": "jest",
-        "export": true
       }
     }
   }
