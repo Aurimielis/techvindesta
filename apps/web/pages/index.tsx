@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Header from '../src/components/header/header';
-import Link from 'next/link';
 
 const StyledPage = styled.div`
   width: 100%;
@@ -55,12 +54,9 @@ export function Index() {
       <Container>
         <Header header="Techvindesta 🔋" preheader="Sveiki atvyke į" />
 
-        {/* Probs should remove that later when making it public  */}
-        <Link href="/hidro" passHref>
-          <StyledLink>
-            Hidro Data
-          </StyledLink>
-        </Link>
+        <StyledLink href="/hidro">
+          Hidro Data
+        </StyledLink>
       </Container>
       <HeroImage></HeroImage>
     </StyledPage>
