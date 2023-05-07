@@ -31,6 +31,9 @@ const StyledTable = styled.table`
   border-spacing: 0;
 `
 
+// TODO: add on-hover styles
+const StyledTableRow = styled.tr``
+
 const HidroDataTable: React.FC<HidroDataTableProps> = ({ data }) => {
   const columns = React.useMemo<ColumnDef<HidroData>[]>(
     () => [
