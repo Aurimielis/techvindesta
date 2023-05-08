@@ -11,15 +11,30 @@ executors:
     working_directory: ~/project
 
 jobs:
-  build-express-api:
+  tests:
     executor: node-16
     steps:
       - checkout
       - run:
           name: Install Dependencies
           command: |
-            npm ci
-            npm i @nrwl/nx-linux-x64-gnu
+            npm ci --no-save
+      - run:
+          name: Run Tests
+          command: |
+            nx test api
+      - save_cache:
+          paths:
+            - "node_modules"
+          key: npm-{{ checksum "package-lock.json }}
+
+
+  build-express-api:
+    executor: node-16
+    steps:
+      - checkout
+      - restore_cache:
+          key: npm-{{ checksum "package-lock.json }}
       - run:
           name: Build API
           command: npm run api:build
@@ -36,12 +51,11 @@ jobs:
     executor: node-16
     steps:
       - checkout
+      - restore_cache:
+          key: npm-{{ checksum "package-lock.json }}
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-      - run:
-          name: Install Dependencies
-          command: npm ci
       - run:
           name: Deploy to AWS
           command: npm run api:sls:deploy
@@ -50,11 +64,15 @@ workflows:
   version: 2
   deploy-production:
     jobs:
+      - tests
+
       # Express API
       - build-express-api:
           filters:
             branches:
               only: main
+          requires:
+            - tests
       - aws-code-deploy/deploy:
           pre-steps:
             - attach_workspace:
@@ -80,3 +98,5 @@ workflows:
           filters:
             branches:
               only: main
+          requires:
+            - tests
