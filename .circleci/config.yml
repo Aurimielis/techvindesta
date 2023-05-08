@@ -65,6 +65,8 @@ jobs:
             cd apps/infra
             cdk synth
 
+            cdk deploy HidroStage/\* --require-approval never
+
   build-express-api:
     executor: node-16
     steps:
