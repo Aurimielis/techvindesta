@@ -17,6 +17,8 @@ commands:
           keys:
             - npm-{{ checksum "package-lock.json" }}
             - npm-
+      - restore_cache:
+          key: npm-cdk-{{ checksum "~/project/apps/infra/package-lock.json" }}
 
   save:
     steps:
@@ -24,6 +26,10 @@ commands:
           key: npm-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
+      - save_cache:
+          key: npm-cdk-{{ checksum "~/project/apps/infra/package-lock.json" }}
+          paths:
+            - apps/infra/node_modules
 
 jobs:
   tests:
@@ -47,10 +53,16 @@ jobs:
       - checkout
       - restore
       - run:
-          name: Deploy Infrastructure
+          name: Install cdk packages
           command: |
             cd apps/infra
             npm install -g aws-cdk
+            npm install
+      - save
+      - run:
+          name: Deploy Infrastructure
+          command: |
+            cd apps/infra
             cdk synth
 
   build-express-api:
