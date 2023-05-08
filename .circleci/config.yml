@@ -11,27 +11,45 @@ executors:
     working_directory: ~/project
 
 jobs:
-  tests:
-    executor: node-16
+  restore:
     steps:
-      - checkout
       - restore_cache:
           keys:
             - npm-{{ checksum "package-lock.json" }}
             - npm-
-      - run:
-          name: Install Dependencies
-          command: |
-            npm ci --no-save
+
+  save:
+    steps:
       - save_cache:
           key: npm-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
+
+  tests:
+    executor: node-16
+    steps:
+      - checkout
+      - restore
+      - run:
+          name: Install Dependencies
+          command: |
+            npm ci --no-save
+      - save
       - run:
           name: Run Tests
           command: |
             npm test
 
+  deploy-cdk:
+    executor: node-16
+    steps:
+      - checkout
+      - restore
+      - run:
+          name: Deploy Infrastructure
+          command: |
+            npm install -g aws-cdk
+            cdk synth
 
   build-express-api:
     executor: node-16
@@ -73,6 +91,11 @@ workflows:
   deploy-production:
     jobs:
       - tests
+
+      # CDK
+      - deploy-cdk:
+          requires:
+            - tests
 
       # Express API
       - build-express-api:
