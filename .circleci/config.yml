@@ -49,6 +49,7 @@ jobs:
       - run:
           name: Deploy Infrastructure
           command: |
+            cd apps/infra
             npm install -g aws-cdk
             cdk synth
 
