@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            npm run api:test
+            npm test
       - save_cache:
           paths:
             - "node_modules"

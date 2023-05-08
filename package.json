@@ -7,7 +7,7 @@
     "api:sls:deploy": "cd apps/hidro-api && node ../../node_modules/.bin/serverless deploy --stage production",
     "api:build": "node ./node_modules/.bin/nx build api",
     "api:serve": "node ./node_modules/.bin/nx serve api",
-    "api:test": "node ./node_modules/.bin/nx test api"
+    "test": "node ./node_modules/.bin/nx affected -t test --parallel=4 -- --runInBand"
   },
   "private": true,
   "dependencies": {
