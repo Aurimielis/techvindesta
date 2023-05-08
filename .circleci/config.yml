@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            nx test api
+            npm run api:test
       - save_cache:
           paths:
             - "node_modules"
