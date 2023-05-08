@@ -16,19 +16,21 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: npm-{{ checksum "package-lock.json" }}
+          keys:
+            - npm-{{ checksum "package-lock.json" }}
+            - npm-
       - run:
           name: Install Dependencies
           command: |
             npm ci --no-save
+      - save_cache:
+          key: npm-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
       - run:
           name: Run Tests
           command: |
             npm test
-      - save_cache:
-          paths:
-            - "node_modules"
-          key: npm-{{ checksum "package-lock.json" }}
 
 
   build-express-api:
@@ -36,7 +38,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: npm-{{ checksum "package-lock.json" }}
+          keys:
+            - npm-{{ checksum "package-lock.json" }}
+            - npm-
       - run:
           name: Build API
           command: npm run api:build
@@ -54,7 +58,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: npm-{{ checksum "package-lock.json" }}
+          keys:
+            - npm-{{ checksum "package-lock.json" }}
+            - npm-
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
