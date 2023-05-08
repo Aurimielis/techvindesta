@@ -10,7 +10,7 @@ executors:
       - image: cimg/node:16.19.1
     working_directory: ~/project
 
-jobs:
+commands:
   restore:
     steps:
       - restore_cache:
@@ -25,6 +25,7 @@ jobs:
           paths:
             - node_modules
 
+jobs:
   tests:
     executor: node-16
     steps:
@@ -88,9 +89,16 @@ jobs:
 
 workflows:
   version: 2
+  test-infra-feature:
+    jobs:
+      - deploy-cdk
+
   deploy-production:
     jobs:
-      - tests
+      - tests:
+          filters:
+            branches:
+              only: main
 
       # CDK
       - deploy-cdk:
@@ -99,9 +107,6 @@ workflows:
 
       # Express API
       - build-express-api:
-          filters:
-            branches:
-              only: main
           requires:
             - tests
       - aws-code-deploy/deploy:
@@ -118,16 +123,10 @@ workflows:
             - aws-cli/setup:
                 aws-access-key-id: AWS_ACCESS_KEY_ID
                 aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          filters:
-            branches:
-              only: main
           requires:
             - build-express-api
 
       # Serverless API
       - serverless-api:
-          filters:
-            branches:
-              only: main
           requires:
             - tests
