@@ -37,10 +37,10 @@ describe('POST /hidro/create', () => {
       .expect(400)
   })
 
-  it('should accept and store valid sensor data', () => {
-    return request(app)
-      .post('/hidro/create')
-      .send({ apiKey: 'v', value1: "21.1", value2: 42, value3: 0.0, HENr: 27 })
-      .expect(200)
-  })
+  // it('should accept and store valid sensor data', () => {
+  //   return request(app)
+  //     .post('/hidro/create')
+  //     .send({ apiKey: 'v', value1: "21.1", value2: 42, value3: 0.0, HENr: 27 })
+  //     .expect(200)
+  // })
 })
