@@ -65,7 +65,7 @@ jobs:
             cd apps/infra
             cdk synth
 
-            cdk deploy HidroStage/\* --require-approval never
+            cdk deploy HidroStage/\* --require-approval never --role-arn ${AWS_CDK_DEPLOY_ROLE_ARN}
 
   build-express-api:
     executor: node-16

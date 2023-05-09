@@ -12,6 +12,7 @@ export class ManagementStage extends cdk.Stage {
   constructor(scope: Construct, id: string, props: ManagementStageProps) {
     super(scope, id, props);
 
+    // Environment-specific
     this.production = new EnvironmentManagementStack(this, "ProductionManagementStack", {
       env: props.env,
       stage: props.stageName
