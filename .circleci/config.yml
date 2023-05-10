@@ -110,13 +110,17 @@ jobs:
 
 workflows:
   version: 2
-  test-infra-feature:
+  deploy-production:
     jobs:
-      - deploy-cdk
+      - tests:
+          filters:
+            branches:
+              only: main
+
       # Express API
       - build-express-api:
           requires:
-            - deploy-cdk
+            - tests
       - aws-code-deploy/deploy:
           pre-steps:
             - attach_workspace:
@@ -134,36 +138,8 @@ workflows:
           requires:
             - build-express-api
 
-  deploy-production:
-    jobs:
-      - tests:
-          filters:
-            branches:
-              only: main
-
       # CDK
       - deploy-cdk:
-          requires:
-            - tests
-
-      # Express API
-      - build-express-api:
-          requires:
-            - tests
-      - aws-code-deploy/deploy:
-          pre-steps:
-            - attach_workspace:
-                at: ~/tmp
-          application-name: 'ApiApplication'
-          bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
-          bundle-key: 'Production'
-          bundle-source: '../tmp/dist'
-          deployment-group: 'ProductionApiDeploymentGroup'
-          service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
-          auth:
-            - aws-cli/setup:
-                aws-access-key-id: AWS_ACCESS_KEY_ID
-                aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           requires:
             - build-express-api
 
