@@ -112,10 +112,16 @@ workflows:
   version: 2
   deploy-production:
     jobs:
+      # Tests
       - tests:
           filters:
             branches:
               only: main
+
+      # CDK
+      - deploy-cdk:
+          requires:
+            - build-express-api
 
       # Express API
       - build-express-api:
@@ -136,12 +142,10 @@ workflows:
                 aws-access-key-id: AWS_ACCESS_KEY_ID
                 aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           requires:
+            - deploy-cdk
             - build-express-api
 
-      # CDK
-      - deploy-cdk:
-          requires:
-            - build-express-api
+
 
       # Serverless API
       - serverless-api:
