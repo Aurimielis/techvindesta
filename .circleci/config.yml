@@ -59,13 +59,19 @@ jobs:
             npm install -g aws-cdk
             npm install
       - save
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - aws-cli/role-arn-setup:
+          profile-name: cdk
+          role-arn: ${AWS_CDK_DEPLOY_ROLE_ARN}
       - run:
           name: Deploy Infrastructure
           command: |
             cd apps/infra
             cdk synth
 
-            cdk deploy HidroStage/\* --require-approval never --role-arn ${AWS_CDK_DEPLOY_ROLE_ARN}
+            cdk deploy HidroStage/\* --require-approval never --profile cdk
 
   build-express-api:
     executor: node-16
@@ -107,6 +113,26 @@ workflows:
   test-infra-feature:
     jobs:
       - deploy-cdk
+      # Express API
+      - build-express-api:
+          requires:
+            - deploy-cdk
+      - aws-code-deploy/deploy:
+          pre-steps:
+            - attach_workspace:
+                at: ~/tmp
+          application-name: 'ApiApplication'
+          bundle-bucket: 'api-code-deploy-bucket-eu-west-1-261683817353'
+          bundle-key: 'Production'
+          bundle-source: '../tmp/dist'
+          deployment-group: 'ProductionApiDeploymentGroup'
+          service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
+          auth:
+            - aws-cli/setup:
+                aws-access-key-id: AWS_ACCESS_KEY_ID
+                aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          requires:
+            - build-express-api
 
   deploy-production:
     jobs:
