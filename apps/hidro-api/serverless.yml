@@ -14,7 +14,7 @@ provider:
   stage: ${opt:stage, 'development'}
   runtime: nodejs16.x
   region: eu-west-1
-  profile: ${env:AWS_PROFILE, 'default'}
+  profile: ${self:custom.profile.${opt:stage, 'local'}
   environment:
     SERVERLESS_STAGE: ${self:provider.stage, 'staging'}
   tags:
@@ -70,6 +70,11 @@ custom:
     local: ''
     staging: ''
     production: 'ProductionServerlessFrameworkDeploymentRole'
+
+  profile:
+    local: 'techvindesta'
+    staging: 'serverless'
+    production: 'serverless'
 
   bundle:
     linting: false
