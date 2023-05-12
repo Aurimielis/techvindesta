@@ -31,11 +31,20 @@ commands:
           paths:
             - apps/infra/node_modules
 
-  aws-setup:
+  aws_setup:
+    parameters:
+      role_arn:
+        type: string
+        description: Deploy role ARN
+      profile:
+        type: string
+        description: Profile name for deploy role
     steps:
       - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          profile-name: default
+      - aws-cli/role-arn-setup:
+          profile-name: << parameters.profile >>
+          role-arn: << parameters.role_arn >>
 
 jobs:
   tests:
@@ -65,10 +74,9 @@ jobs:
             npm install -g aws-cdk
             npm install
       - save
-      - aws-setup
-      - aws-cli/role-arn-setup:
-          profile-name: cdk
-          role-arn: ${AWS_CDK_DEPLOY_ROLE_ARN}
+      - aws_setup:
+          role_arn: ${AWS_CDK_DEPLOY_ROLE_ARN}
+          profile: cdk
       - run:
           name: Deploy Infrastructure
           command: |
@@ -105,13 +113,14 @@ jobs:
           keys:
             - npm-{{ checksum "package-lock.json" }}
             - npm-
-      - aws-setup
-      - aws-cli/role-arn-setup:
-          profile-name: serverless
-          role-arn: "arn:aws:iam::261683817353:role/ProductionServerlessFrameworkDeploymentRole"
+      - aws_setup:
+          role_arn: "arn:aws:iam::261683817353:role/ProductionServerlessFrameworkDeploymentRole"
+          profile: serverless
       - run:
           name: Deploy to AWS
-          command: npm run api:sls:deploy
+          command: |
+            export AWS_SDK_LOAD_CONFIG=1
+            npm run api:sls:deploy
 
 workflows:
   version: 2
