@@ -14,7 +14,7 @@ provider:
   stage: ${opt:stage, 'development'}
   runtime: nodejs16.x
   region: eu-west-1
-  profile: ${self:custom.profile.${opt:stage, 'local'}
+  profile: ${self:custom.profile.${opt:stage, 'local'}}
   environment:
     SERVERLESS_STAGE: ${self:provider.stage, 'staging'}
   tags:

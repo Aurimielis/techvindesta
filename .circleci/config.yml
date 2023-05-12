@@ -111,7 +111,7 @@ jobs:
           role-arn: "arn:aws:iam::261683817353:role/ProductionServerlessFrameworkDeploymentRole"
       - run:
           name: Deploy to AWS
-          command: npm run api:sls:deploy -- --profile serverless
+          command: npm run api:sls:deploy
 
 workflows:
   version: 2
