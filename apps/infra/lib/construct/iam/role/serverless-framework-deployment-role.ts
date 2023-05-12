@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { Stack } from "aws-cdk-lib";
 
-export const ServerlessApiProjectName: string = "hidro-controllers"
+export const ServerlessApiProjectName: string = "hidro-api"
 
 interface ServerlessFrameworkDeploymentRoleProps {
   stage: string

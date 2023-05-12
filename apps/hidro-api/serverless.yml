@@ -73,8 +73,8 @@ custom:
 
   profile:
     local: 'techvindesta'
-    staging: 'serverless'
-    production: 'serverless'
+    staging: 'default'
+    production: 'default'
 
   bundle:
     linting: false

@@ -10,7 +10,7 @@ export class LoggingService {
     this.logger = winston.createLogger({
       level: 'debug',
       format: winston.format.json(),
-      defaultMeta: { service: 'hidro-controllers' },
+      defaultMeta: { service: 'hidro-api' },
       transports: [
         new winston.transports.Console(),
       ],
