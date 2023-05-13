@@ -4,13 +4,15 @@ import { Construct } from "constructs";
 import { Stack } from "aws-cdk-lib";
 
 export class CircleciDeployUser extends Construct {
+  public static readonly userName: string = "CircleCI"
+
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     const accountId: string = Stack.of(this).account
 
     const user = new iam.User(this, "CircleCiUser", {
-      userName: "CircleCI"
+      userName: CircleciDeployUser.userName
     })
 
     user.attachInlinePolicy(new iam.Policy(this, 'circleci-deploy-policies', {

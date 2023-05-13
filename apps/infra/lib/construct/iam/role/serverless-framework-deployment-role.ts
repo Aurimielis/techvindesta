@@ -1,6 +1,8 @@
 import { Construct } from "constructs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { Stack } from "aws-cdk-lib";
+import { CompositePrincipal } from "aws-cdk-lib/aws-iam";
+import { CircleciDeployUser } from "../user/circleci-deploy-user";
 
 export const ServerlessApiProjectName: string = "hidro-api"
 
@@ -91,6 +93,7 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
         `arn:aws:apigateway:${currentStack.region}::/tags/*`,
         `arn:aws:apigateway:${currentStack.region}::/apis`,
         `arn:aws:apigateway:${currentStack.region}::/apis/*`,
+        `arn:aws:apigateway:${currentStack.region}::/domainnames/*`,
       ],
     });
 
@@ -209,7 +212,10 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
     );
 
     this.role = new iam.Role(this, "ServerlessFrameworkDeploymentRole", {
-      assumedBy: new iam.ServicePrincipal("cloudformation.amazonaws.com"),
+      assumedBy: new CompositePrincipal(
+        new iam.ServicePrincipal("cloudformation.amazonaws.com"),
+        iam.User.fromUserName(this, "CircleCiDeployUser", CircleciDeployUser.userName)
+      ),
       roleName: `${stage}${ServerlessFrameworkDeploymentRole.roleName}`,
     })
 
