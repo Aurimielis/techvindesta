@@ -155,6 +155,7 @@ workflows:
             - aws_setup:
                 role_arn: 'arn:aws:iam::261683817353:role/CodeDeployDeploymentRole'
                 profile: 'code-deploy'
+          profile-name: 'code-deploy'
           requires:
             - deploy-cdk
             - build-express-api
