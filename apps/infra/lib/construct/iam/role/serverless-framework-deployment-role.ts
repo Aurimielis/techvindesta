@@ -318,6 +318,7 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
       sid: "CFAllowApiGateway",
       actions: [
         "apigateway:GET",
+        "apigateway:PATCH"
       ],
       resources: [
         `arn:aws:apigateway:${currentStack.region}::/domainnames/*`,
