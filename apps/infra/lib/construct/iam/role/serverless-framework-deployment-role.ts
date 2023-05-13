@@ -1,7 +1,6 @@
 import { Construct } from "constructs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { Stack } from "aws-cdk-lib";
-import { CompositePrincipal } from "aws-cdk-lib/aws-iam";
 import { CircleciDeployUser } from "../user/circleci-deploy-user";
 
 export const ServerlessApiProjectName: string = "hidro-api"
@@ -11,14 +10,35 @@ interface ServerlessFrameworkDeploymentRoleProps {
 }
 
 export class ServerlessFrameworkDeploymentRole extends Construct {
-  public static readonly roleName: string = "ServerlessFrameworkDeploymentRole"
-  public readonly role: iam.Role
-  private readonly Policy: iam.Policy;
+  public static readonly deployRoleName: string = "ServerlessFrameworkDeploymentRole"
+  public static readonly executionRoleName: string = "ServerlessFrameworkExecutionRole"
 
   constructor(scope: Construct, id: string, props: ServerlessFrameworkDeploymentRoleProps) {
     super(scope, id);
 
     const { stage } = props
+
+
+    // Create deployment role
+    const deployRole = new iam.Role(this, ServerlessFrameworkDeploymentRole.deployRoleName, {
+      assumedBy: iam.User.fromUserName(this, "CircleCiDeployUser", CircleciDeployUser.userName),
+      roleName: `${stage}${ServerlessFrameworkDeploymentRole.deployRoleName}`,
+    })
+
+    // Create execution role
+    const executionRole = new iam.Role(this, ServerlessFrameworkDeploymentRole.executionRoleName, {
+      assumedBy: new iam.ServicePrincipal("cloudformation.amazonaws.com"),
+      roleName: `${stage}${ServerlessFrameworkDeploymentRole.executionRoleName}`,
+    })
+
+    executionRole.attachInlinePolicy(this.getExecutionPolicyDocument());
+    deployRole.attachInlinePolicy(this.getDeploymentPolicyDocument(executionRole.roleArn));
+  }
+
+  /**
+   * Return iam.Policy for Serverless Execution Role
+   */
+  public getExecutionPolicyDocument(): iam.Policy {
     const currentStack = Stack.of(this)
 
     const allowPassRole = new iam.PolicyStatement({
@@ -93,7 +113,6 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
         `arn:aws:apigateway:${currentStack.region}::/tags/*`,
         `arn:aws:apigateway:${currentStack.region}::/apis`,
         `arn:aws:apigateway:${currentStack.region}::/apis/*`,
-        `arn:aws:apigateway:${currentStack.region}::/domainnames/*`,
       ],
     });
 
@@ -189,47 +208,37 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
       resources: ['*']
     })
 
-    this.Policy = new iam.Policy(
-      this,
-      "ServerlessFrameworkCloudformationPolicy",
-      {
-        document: new iam.PolicyDocument({
-          statements: [
-            allowPassRole,
-            allowCloudFormation,
-            allowCFValidation,
-            allowS3FullAccessForProject,
-            allowS3BucketCreate,
-            allowApiGateway,
-            allowLambdaLogGroup,
-            allowEvents,
-            allowLambda,
-            allowAccessToSecurityGroups,
-            allowCloudFront
-          ],
-        }),
-      }
-    );
-
-    this.role = new iam.Role(this, "ServerlessFrameworkDeploymentRole", {
-      assumedBy: new CompositePrincipal(
-        new iam.ServicePrincipal("cloudformation.amazonaws.com"),
-        iam.User.fromUserName(this, "CircleCiDeployUser", CircleciDeployUser.userName)
-      ),
-      roleName: `${stage}${ServerlessFrameworkDeploymentRole.roleName}`,
+    const policyDocument = new iam.PolicyDocument({
+      statements: [
+        allowPassRole,
+        allowCloudFormation,
+        allowCFValidation,
+        allowS3FullAccessForProject,
+        allowS3BucketCreate,
+        allowApiGateway,
+        allowLambdaLogGroup,
+        allowEvents,
+        allowLambda,
+        allowAccessToSecurityGroups,
+        allowCloudFront
+      ],
     })
 
-    this.role.attachInlinePolicy(this.Policy);
-    this.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaVPCAccessExecutionRole"));
+    return new iam.Policy(this, "ServerlessExecutionPolicy", {
+      document: policyDocument
+    })
   }
 
-  public getDeploymentPolicyDocument(): iam.PolicyDocument {
+  /**
+   * Return iam.Policy for Serverless Deployment Role
+   */
+  public getDeploymentPolicyDocument(execRoleArn: string): iam.Policy {
     const currentStack = Stack.of(this);
 
     const allowPassRole = new iam.PolicyStatement({
       sid: "DelegateToCloudFormationRole",
       actions: ["iam:PassRole"],
-      resources: [this.role.roleArn],
+      resources: [execRoleArn],
     });
 
     const allowCloudFormationValidation = new iam.PolicyStatement({
@@ -302,7 +311,17 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
       resources: ["*"],
     });
 
-    return new iam.PolicyDocument({
+    const allowApiGateway = new iam.PolicyStatement({
+      sid: "CFAllowApiGateway",
+      actions: [
+        "apigateway:GET",
+      ],
+      resources: [
+        `arn:aws:apigateway:${currentStack.region}::/domainnames/*`,
+      ],
+    });
+
+    const policyDocument = new iam.PolicyDocument({
       statements: [
         allowPassRole,
         allowCloudFormationValidation,
@@ -310,8 +329,13 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
         allowExecuteCloudFormation,
         allowReadLambda,
         allowManageSlsDeploymentBucket,
-        allowListBuckets
+        allowListBuckets,
+        allowApiGateway
       ],
     });
+
+    return new iam.Policy(this, "ServerlessDeployPolicy", {
+      document: policyDocument
+    })
   }
 }
