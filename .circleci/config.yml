@@ -120,7 +120,7 @@ jobs:
           name: Deploy to AWS
           command: |
             export AWS_SDK_LOAD_CONFIG=1
-            npm run api:sls:deploy
+            npm run api:sls:deploy -- --aws-profile serverless
 
 workflows:
   version: 2
