@@ -22,6 +22,7 @@ provider:
     stage: ${self:provider.stage, 'staging'}
 
   iam:
+    deploymentRole: "arn:aws:iam::261683817353:role/ProductionServerlessFrameworkExecutionRole"
     role:
       statements:
         - Effect: Allow
