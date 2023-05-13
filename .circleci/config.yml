@@ -153,7 +153,7 @@ workflows:
           service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
           auth:
             - aws_setup:
-                role_arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
+                role_arn: 'arn:aws:iam::261683817353:role/CodeDeployDeploymentRole'
                 profile: 'code-deploy'
           requires:
             - deploy-cdk
