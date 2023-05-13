@@ -12,7 +12,12 @@ export class CodeDeployDeploymentRole extends Construct {
     const role = new iam.Role(this, CodeDeployDeploymentRole.roleName, {
       assumedBy: iam.User.fromUserName(this, "CircleCiDeployUser", CircleciDeployUser.userName),
       roleName: CodeDeployDeploymentRole.roleName,
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AWSCodeDeployDeployerAccess')
+      ]
     })
+
+
 
     role.attachInlinePolicy(new iam.Policy(this, `${CodeDeployDeploymentRole.roleName}Policy`, {
       document: new iam.PolicyDocument({
@@ -24,7 +29,7 @@ export class CodeDeployDeploymentRole extends Construct {
             ],
             resources: ["*"],
             effect: Effect.ALLOW
-          })
+          }),
         ]
       })
     }))
