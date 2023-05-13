@@ -21,7 +21,10 @@ export class ServerlessFrameworkDeploymentRole extends Construct {
 
     // Create deployment role
     const deployRole = new iam.Role(this, ServerlessFrameworkDeploymentRole.deployRoleName, {
-      assumedBy: iam.User.fromUserName(this, "CircleCiDeployUser", CircleciDeployUser.userName),
+      assumedBy: new iam.CompositePrincipal(
+        iam.User.fromUserName(this, "CircleCiDeployUser", CircleciDeployUser.userName),
+        new iam.ServicePrincipal("cloudformation.amazonaws.com")
+      ),
       roleName: `${stage}${ServerlessFrameworkDeploymentRole.deployRoleName}`,
     })
 
