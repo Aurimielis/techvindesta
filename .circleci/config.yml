@@ -152,14 +152,12 @@ workflows:
           deployment-group: 'ProductionApiDeploymentGroup'
           service-role-arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
           auth:
-            - aws-cli/setup:
-                aws-access-key-id: AWS_ACCESS_KEY_ID
-                aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+            - aws_setup:
+                role_arn: 'arn:aws:iam::261683817353:role/CodeDeployServiceRole'
+                profile: 'code-deploy'
           requires:
             - deploy-cdk
             - build-express-api
-
-
 
       # Serverless API
       - serverless-api:
