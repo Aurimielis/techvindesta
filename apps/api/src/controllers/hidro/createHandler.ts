@@ -1,5 +1,6 @@
 import { DatabaseService, LoggingService } from "@techvindesta/services";
 
+// Keep this same as in the modem server
 const API_KEY = 'v'
 
 const tableMap: {
@@ -38,10 +39,10 @@ const tableMap: {
  * @constructor
  */
 const createHandler = async (req: any, res: any) => {
-  const { apiKey } = req.body
+  const { api_key } = req.body
 
   // Check if API keys match
-  if (apiKey !== API_KEY) {
+  if (api_key !== API_KEY) {
     res.status(409).send({ message: 'Unauthorized'})
     return
   }

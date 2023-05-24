@@ -16,6 +16,7 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3001;
 const app = express();
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
 app.use(morgan('combined'))
 
 app.get('/', (req, res) => {
