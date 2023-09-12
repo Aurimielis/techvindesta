@@ -1,4 +1,5 @@
 import { DatabaseService, LoggingService } from "@techvindesta/services";
+import adjustData from '../../utils/adjust-data/adjust-data'
 
 // Keep this same as in the modem server
 const API_KEY = 'v'
@@ -69,12 +70,12 @@ const createHandler = async (req: any, res: any) => {
     return
   }
 
-  // TODO add func to adjust data where need to be
+  const newValues = adjustData(values, heId)
 
   // Store sensor data in database
   const client = await DatabaseService.init(new LoggingService())
   try {
-    await client.storeSensorData(tableMap[heId], values)
+    await client.storeSensorData(tableMap[heId], newValues)
   } catch (e) {
     res.status(500).send({ message: 'Internal server error'})
     return
