@@ -4,6 +4,8 @@ import HidroDataTable from "../src/components/hidro-data-table/hidro-data-table"
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import acl from '../src/config/access-control-list.json'
+
 
 const endpoint = "https://lambda.techvindesta.com/he-data/"
 
@@ -32,6 +34,15 @@ const Hidro = ({ data, table }) => {
 
 Hidro.getInitialProps = async (ctx) => {
   const table = ctx.query['table-name'] ?? 'TestHE'
+
+  if (!acl.allowed.includes(table)) {
+    const target = '/maintenance'
+
+    ctx.res.writeHead(307, { Location: target })
+    ctx.res.end()
+
+    return {}
+  }
 
   const res = await fetch(`${endpoint}${table}`)
   const data = await res.json()
