@@ -11,6 +11,7 @@ Run `nx graph` to see a diagram of the dependencies of the projects.
 
 ## Prerequisites
 
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) latest
 - [Node.js](https://nodejs.org/en/) >= 16.19.1 (just run `nvm install && nvm use` to use the correct version)
 - [serverless-cli](https://www.serverless.com/framework/docs/getting-started/) >= 3.0.0
 - [aws-cdk-cli](https://docs.aws.amazon.com/cdk/v2/guide/cli.html) >= 2.66.1
@@ -19,7 +20,7 @@ Run `nx graph` to see a diagram of the dependencies of the projects.
 ## Getting started
 
 Before starting the work on any of these projects, make sure you have 
-1. correct node version set up (`nvm install and nvm use`).
+1. Correct node version set up (`nvm install and nvm use`).
 2. `aws-cli` installed and configured with aws credentials for programmatic access to the AWS account.
 
 ### CDK
